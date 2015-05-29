@@ -9,6 +9,8 @@ import java.util.Observer;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
+import org.eclipse.swt.events.KeyEvent;
+import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionEvent;
@@ -31,7 +33,7 @@ public class StartWindow extends BasicWindow implements View
 	Presenter p;
 	int numR = 0;
 	int numC = 0;
-	Maze m;
+	Maze myMaze;
 	Solution sol;
 	public StartWindow(String title, int width, int height) 
 	{
@@ -192,7 +194,8 @@ public class StartWindow extends BasicWindow implements View
 			@Override
 			public void widgetSelected(SelectionEvent e) 
 			{
-				maze.displayMaze(new DFSMazeGenerator().generateMaze(numR, numC));
+				myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
+				maze.displayMaze(myMaze);
 				maze.forceFocus();
 			}
 			
@@ -230,7 +233,48 @@ public class StartWindow extends BasicWindow implements View
 			}
 		});
 		
-		
+		maze.addKeyListener(new KeyListener(){
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+				if(e.keyCode == SWT.ESC)
+				{
+					display.dispose ();
+				}
+				if(e.keyCode == SWT.ARROW_UP)
+				{
+					System.out.println("UP");
+					
+				}
+					 
+				if(e.keyCode == SWT.ARROW_DOWN)
+				{
+					System.out.println("DOWN");	
+					
+				}
+									
+				if(e.keyCode == SWT.ARROW_LEFT)
+				{
+					System.out.println("LEFT");
+					
+				}
+							
+				if(e.keyCode == SWT.ARROW_RIGHT)
+				{
+					System.out.println("RIGHT");	
+					
+				}
+				
+			}
+
+			@Override
+			public void keyReleased(KeyEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
 		
 
 		

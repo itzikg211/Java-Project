@@ -41,7 +41,7 @@ public class Run {
 		
 		
 		//////////////////////////////////////////////////////////////////
-		MyModel m=new MyModel(new Properties());
+		//MyModel m=new MyModel(new Properties());
 		StartWindow win=new StartWindow("Row Out Maze", 1200, 1000);
 		MyView v = new MyView();
 		/*Properties pro;
@@ -49,8 +49,8 @@ public class Run {
 			m=new MyModel(pro);
 		else
 			m=new MyModel(new Properties());*/
-		Presenter p = new Presenter(m,win);
-		m.addObserver(p);
+		Presenter p = new Presenter(null,win);
+		//m.addObserver(p);
 		win.addObserver(p);
 		//v.addObserver(p);
 		win.run();
