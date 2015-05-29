@@ -74,11 +74,11 @@ public class Board extends Composite
 				return false;
 			else
 			{
-				System.out.println("Place : " + (i-1) + "," + j);
+				/*System.out.println("Place : " + (i-1) + "," + j);
 				System.out.println("has top wall : " + (m.getCell(i-1,j).getHasTopWall()));
 				System.out.println("has right wall : " + (m.getCell(i-1,j).getHasRightWall()));
 				System.out.println("has bottom wall : " + (m.getCell(i-1,j).getHasBottomWall()));
-				System.out.println("has left wall : " + (m.getCell(i-1,j).getHasLeftWall()));
+				System.out.println("has left wall : " + (m.getCell(i-1,j).getHasLeftWall()));*/
 				if(this.m.getCell(i-1, j).getHasBottomWall()==false)
 				{
 					return true;
@@ -95,7 +95,7 @@ public class Board extends Composite
 			}
 			else
 			{
-				if(this.m.getCell(i, j+1).getHasLeftWall()==false)
+				if(this.m.getCell(i, j).getHasLeftWall()==false)
 				{
 					return true;
 				}
@@ -124,7 +124,7 @@ public class Board extends Composite
 			}
 			else
 			{
-				if(this.m.getCell(i, j).getHasLeftWall()==false)
+				if(this.m.getCell(i, j-1).getHasLeftWall()==false)
 					return true;
 				return false;
 			}

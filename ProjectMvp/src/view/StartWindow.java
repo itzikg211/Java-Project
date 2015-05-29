@@ -232,12 +232,10 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
-		
 		maze.addKeyListener(new KeyListener(){
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				Maze maze2=maze.getMaze();
 				if(e.keyCode == SWT.ESC)
 				{
 					display.dispose ();
@@ -254,8 +252,8 @@ public class StartWindow extends BasicWindow implements View
 					}
 				}
 					 
-				else
-					System.out.println("CAN NOT MOVE");
+				/*else
+					System.out.println("CAN NOT MOVE");*/
 			if(e.keyCode == SWT.ARROW_DOWN)
 			{
 				System.out.println("down");
@@ -265,8 +263,8 @@ public class StartWindow extends BasicWindow implements View
 					maze.setPos(maze.getX()+1,maze.getY());
 					//fucntion to set the image
 				}
-				else
-					System.out.println("CAN NOT MOVE");
+				/*else
+					System.out.println("CAN NOT MOVE");*/
 			}
 			if(e.keyCode == SWT.ARROW_LEFT)
 			{
@@ -277,8 +275,8 @@ public class StartWindow extends BasicWindow implements View
 					maze.setPos(maze.getX(),maze.getY()-1);
 					//fucntion to set the image
 				}
-				else
-					System.out.println("CAN NOT MOVE");
+				/*else
+					System.out.println("CAN NOT MOVE");*/
 			}
 			if(e.keyCode == SWT.ARROW_RIGHT)
 			{
@@ -289,8 +287,8 @@ public class StartWindow extends BasicWindow implements View
 					maze.setPos(maze.getX(),maze.getY()+1);
 					//fucntion to set the image
 				}
-				else
-					System.out.println("CAN NOT MOVE");
+				/*else
+					System.out.println("CAN NOT MOVE");*/
 				
 			}
 			}
