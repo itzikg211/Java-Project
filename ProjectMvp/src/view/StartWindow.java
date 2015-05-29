@@ -17,6 +17,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.MessageBox;
 
 import presenter.Presenter;
 import algorithms.mazeGenerators.DFSMazeGenerator;
@@ -77,10 +78,11 @@ public class StartWindow extends BasicWindow implements View
 	@Override
 	void initWidgets() 
 	{
+		
 		shell.setLayout(new GridLayout(2,false));
 		
 		Label numOfRows = new Label(shell, SWT.COLOR_BLUE);
-		numOfRows.setText("Choose the number of rows and columns");
+		numOfRows.setText("Choose the number of rows");
 		numOfRows.setLayoutData(new GridData(SWT.NONE,SWT.NONE, false,false,1,1));
 		Board maze=new Board(shell, SWT.BORDER);
 		maze.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,7));
@@ -184,20 +186,30 @@ public class StartWindow extends BasicWindow implements View
 		
 		a.addSelectionListener(new SelectionListener() 
 		{
-			
-			
 			@Override
 			public void widgetSelected(SelectionEvent e) 
 			{
-				myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
-				maze.displayMaze(myMaze);
-				maze.forceFocus();
+				if(numR != 0 && numC != 0)
+				{
+					myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
+					maze.displayMaze(myMaze);
+					maze.forceFocus();					
+				}
+				else
+				{
+					MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR);
+					mb.setText("Error");
+					if(numR==0)
+						mb.setMessage("You didn't choose the number of rows");
+					else
+						mb.setMessage("You didn't choose the number of columns");
+					mb.open();
+				}
 			}
 			
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
-			
 		hint.addSelectionListener(new SelectionListener() {
 			
 			@Override

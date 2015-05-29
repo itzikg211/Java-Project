@@ -25,12 +25,17 @@ public class Properties implements Serializable {
 	{
 		ASTAR_MANHATTAN_DISTANCE,ASTAR_AIR_DISTANCE,BFS_DIAGONAL,BFS_NO_DIAGONAL
 	};
+	public enum WayOfDisplay
+	{
+		GUI,ECLIPSE_CONSOLE
+	};
 	private int threadNumber;
 	private MazeSolver mazeSolver;
 	private MazeGenerator mazeGenerator;
 	private Boolean diagonal;
 	private double regCost;
 	private double diagonalCost;
+	private WayOfDisplay view;
 	/**
 	 * Constructs the class Properties and intializes the basic Settings
 	 */
@@ -42,6 +47,7 @@ public class Properties implements Serializable {
 		this.diagonal=false;
 		this.regCost=10;
 		this.diagonalCost=15;
+		this.view = WayOfDisplay.GUI;
 	}
 	/**
 	 * Constructs the class Properties and intializes the class with the injected fiels
@@ -131,9 +137,24 @@ public class Properties implements Serializable {
 	}
 	/**
 	 * sets the cost of the maze solution with diagonal
-	 * @param diagonalCost the selcted maze solution
+	 * @param diagonalCost the selected maze solution
 	 */
 	public void setDiagonalMovementCost(double diagonalCost) {
 		this.diagonalCost = diagonalCost;
+	}
+	
+	/**
+	 * @return returns the way of display
+	 */
+	
+	public WayOfDisplay getView() {
+		return view;
+	}
+	/**
+	 * sets the view of the program
+	 * @param view the selected way of display
+	 */
+	public void setView(WayOfDisplay view) {
+		this.view = view;
 	}
 }

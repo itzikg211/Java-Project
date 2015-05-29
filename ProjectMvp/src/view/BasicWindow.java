@@ -38,4 +38,5 @@ public abstract class BasicWindow extends Observable implements Runnable{
 		 System.exit(0);
 	}
 
+	
 }

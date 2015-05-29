@@ -28,12 +28,12 @@ public class Run {
 		
 		///////////////////////////////////////////////////////////////////
 		/*MyModel m = new MyModel(new Properties());
-		MyView v = new MyView();
 		Properties pro;
 		if((pro=readProperties())!=null)
 			m=new MyModel(pro);
 		else
 			m=new MyModel(new Properties());
+		MyView v = new MyView();
 		Presenter p = new Presenter(m,v);
 		m.addObserver(p);
 		v.addObserver(p);
@@ -41,18 +41,16 @@ public class Run {
 		
 		
 		//////////////////////////////////////////////////////////////////
-		//MyModel m=new MyModel(new Properties());
-		StartWindow win=new StartWindow("Row Out Maze", 1200, 1000);
-		MyView v = new MyView();
-		/*Properties pro;
+		MyModel m=new MyModel(new Properties());
+		Properties pro;
 		if((pro=readProperties())!=null)
 			m=new MyModel(pro);
 		else
-			m=new MyModel(new Properties());*/
-		Presenter p = new Presenter(null,win);
-		//m.addObserver(p);
+			m=new MyModel(new Properties());
+		StartWindow win=new StartWindow("Row Out Maze", 1200, 1000);
+		Presenter p = new Presenter(m,win);
+		m.addObserver(p);
 		win.addObserver(p);
-		//v.addObserver(p);
 		win.run();
 	}
 	/**

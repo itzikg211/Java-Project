@@ -13,6 +13,7 @@ import java.util.Observer;
 
 import model.Model;
 import view.Command;
+import view.StartWindow;
 import view.View;
 import algorithms.mazeGenerators.Maze;
 /**
@@ -25,6 +26,7 @@ public class Presenter implements Observer{
 	HashMap<String, Maze> mazes = new HashMap<String, Maze>();
 	String command;
 	View v;
+	StartWindow sw;
 	Model m;
 	/**
 	 * Constructs and initializes the presenter
@@ -41,6 +43,18 @@ public class Presenter implements Observer{
 		this.m=m;
 		this.v=v;
 	}
+	
+	public Presenter(Model m,StartWindow sw) 
+	{
+		commands.put("generate maze",  new generateMaze());
+		commands.put("display maze",  new displayMaze());
+		commands.put("solve maze",  new solveMaze());
+		commands.put("display solution",  new displaySolution());
+		commands.put("exit",  new Exit());
+		this.m=m;
+		this.sw = sw;
+	}
+	
 	/**
 	 * the generate maze command. using the model and the view to generate a selected maze.
 	 * @author Ran Sarussi
