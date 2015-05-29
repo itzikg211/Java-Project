@@ -21,10 +21,14 @@ public class Board extends Composite
 	int mazeR;
 	int mazeC;
 	Tile[][] tiles;
-
+	Maze m;
+	int boatI;
+	int boatJ;
 	public Board(Composite parent, int style) 
 	{
 		super(parent, style);
+		this.boatI=0;
+		this.boatJ=0;
 		addPaintListener(new PaintListener() 
 		{
 			
@@ -41,6 +45,7 @@ public class Board extends Composite
 	
 	public void displayMaze(Maze m)
 	{
+		this.m=m;
 		if(tiles!=null) 
 			delMaze();
 		mazeR=m.getRows();
@@ -58,6 +63,74 @@ public class Board extends Composite
 				tiles[i][j].setImage(setImg(m,i,j));
 			}
 		layout();
+	}
+	public boolean canMove(int i,int j,int dir)
+	{
+		System.out.println();
+		//0 means top
+		if(dir==0)
+		{
+			if(i==0)
+				return false;
+			else
+			{
+				System.out.println("Place : " + (i-1) + "," + j);
+				System.out.println("has top wall : " + (m.getCell(i-1,j).getHasTopWall()));
+				System.out.println("has right wall : " + (m.getCell(i-1,j).getHasRightWall()));
+				System.out.println("has bottom wall : " + (m.getCell(i-1,j).getHasBottomWall()));
+				System.out.println("has left wall : " + (m.getCell(i-1,j).getHasLeftWall()));
+				if(this.m.getCell(i-1, j).getHasBottomWall()==false)
+				{
+					return true;
+				}
+				return false;
+			}
+		}
+		//1 means right
+		if(dir==1)
+		{
+			if(j==this.m.getCols()-1)
+			{
+				return false;
+			}
+			else
+			{
+				if(this.m.getCell(i, j+1).getHasLeftWall()==false)
+				{
+					return true;
+				}
+				return false;
+			}
+		}
+		//2 means bottom
+		if(dir==2)
+		{	if(i==this.m.getRows()-1)
+			{
+				return false;
+			}
+			else
+			{
+				if(this.m.getCell(i, j).getHasBottomWall()==false)
+					return true;
+				return false;
+			}
+		}
+		//3 means left
+		if(dir==3)
+		{
+			if(j==0)
+			{
+				return false;
+			}
+			else
+			{
+				if(this.m.getCell(i, j).getHasLeftWall()==false)
+					return true;
+				return false;
+			}
+		}
+		return false;
+
 	}
 	private void delMaze()
 	{
@@ -145,6 +218,29 @@ public class Board extends Composite
         }
 		
 	}
-	
-	
+	public void setX(int a)
+	{
+		this.boatI=a;
+	}
+	public void setY(int a)
+	{
+		this.boatJ=a;
+	}
+	public int getX()
+	{
+		return this.boatI;
+	}
+	public int getY()
+	{
+		return this.boatJ;
+	}
+	public void setPos(int a,int b)
+	{
+		this.boatI=a;
+		this.boatJ=b;
+	}
+	public Maze getMaze()
+	{
+		return this.m;
+	}
 }

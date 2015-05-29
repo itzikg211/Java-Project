@@ -237,39 +237,65 @@ public class StartWindow extends BasicWindow implements View
 
 			@Override
 			public void keyPressed(KeyEvent e) {
-				
+				Maze maze2=maze.getMaze();
 				if(e.keyCode == SWT.ESC)
 				{
 					display.dispose ();
+					
 				}
 				if(e.keyCode == SWT.ARROW_UP)
 				{
 					System.out.println("UP");
-					
+					if(maze.canMove(maze.getX(),maze.getY(), 0))
+					{
+						System.out.println("CAN MOVE");
+						maze.setPos(maze.getX()-1,maze.getY());
+						//fucntion to set the image
+					}
 				}
 					 
-				if(e.keyCode == SWT.ARROW_DOWN)
+				else
+					System.out.println("CAN NOT MOVE");
+			if(e.keyCode == SWT.ARROW_DOWN)
+			{
+				System.out.println("down");
+				if(maze.canMove(maze.getX(),maze.getY(), 2))
 				{
-					System.out.println("DOWN");	
-					
+					System.out.println("CAN MOVE");
+					maze.setPos(maze.getX()+1,maze.getY());
+					//fucntion to set the image
 				}
-									
-				if(e.keyCode == SWT.ARROW_LEFT)
+				else
+					System.out.println("CAN NOT MOVE");
+			}
+			if(e.keyCode == SWT.ARROW_LEFT)
+			{
+				System.out.println("left");
+				if(maze.canMove(maze.getX(),maze.getY(), 3))
 				{
-					System.out.println("LEFT");
-					
+					System.out.println("CAN MOVE");
+					maze.setPos(maze.getX(),maze.getY()-1);
+					//fucntion to set the image
 				}
-							
-				if(e.keyCode == SWT.ARROW_RIGHT)
+				else
+					System.out.println("CAN NOT MOVE");
+			}
+			if(e.keyCode == SWT.ARROW_RIGHT)
+			{
+				System.out.println("right");
+				if(maze.canMove(maze.getX(),maze.getY(), 1))
 				{
-					System.out.println("RIGHT");	
-					
+					System.out.println("CAN MOVE");
+					maze.setPos(maze.getX(),maze.getY()+1);
+					//fucntion to set the image
 				}
+				else
+					System.out.println("CAN NOT MOVE");
 				
 			}
-
+			}
 			@Override
-			public void keyReleased(KeyEvent arg0) {
+			public void keyReleased(KeyEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
