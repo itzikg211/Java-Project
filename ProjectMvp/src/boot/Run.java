@@ -4,12 +4,8 @@ import java.beans.XMLDecoder;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import model.MyModel;
-import presenter.Presenter;
 import presenter.Properties;
 import view.GUIStart;
-import view.MyView;
-import view.StartWindow;
 
 ///////Submitted by: Sarusi Ran 208631143, Gershfeld Itzik 208491886
 
@@ -53,8 +49,23 @@ public class Run {
 		m.addObserver(p);
 		win.addObserver(p);
 		win.run();*/
+		////////////////////////////////////////////////////////////////////
 		GUIStart gui = new GUIStart("Start",1000,800);
 		gui.run();
+		/*XMLEncoder encoder;
+		try {
+			encoder = new XMLEncoder(new FileOutputStream("src/properties.xml"));
+			Properties properties = new Properties();
+			properties.setDiagonal(true);
+			properties.setDiagonalMovementCost(16);
+			properties.setThreadNumber(3);
+			encoder.writeObject(properties);
+			encoder.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	*/	
+		
 		
 	}
 	/**

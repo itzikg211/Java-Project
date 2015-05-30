@@ -1,5 +1,11 @@
 package view;
 
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -9,6 +15,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.MessageBox;
 
 import presenter.Properties;
@@ -19,7 +26,7 @@ public class GUIStart extends BasicWindow
 	public GUIStart(String title, int width, int height)
 	{
 		super(title, width, height);
-		
+		properties = new Properties();
 	}
 
 	@Override
@@ -45,8 +52,30 @@ public class GUIStart extends BasicWindow
 			@Override
 			public void widgetSelected(SelectionEvent arg0) 
 			{
+				FileDialog fd=new FileDialog(shell,SWT.OPEN);
+				fd.setText("open");
+				fd.setFilterPath("");
+				String[] filterExt = { "*.xml" };
+				fd.setFilterExtensions(filterExt);
+				String fileName = fd.open();
+				XMLDecoder d = null;
+				XMLEncoder e = null;
+				try 
+				{
+					d = new XMLDecoder(new FileInputStream(fileName));
+					properties=(Properties)d.readObject();
+					e = new XMLEncoder(new FileOutputStream("src/properties.xml"));
+					e.writeObject(properties);
+				} 
+				catch (FileNotFoundException e1) 
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 				
-				
+				d.close();
+				e.flush();
+				e.close();
 			}
 			
 			@Override
@@ -65,6 +94,7 @@ public class GUIStart extends BasicWindow
 			@Override
 			public void widgetSelected(SelectionEvent arg0) 
 			{
+				
 				display.dispose();
 				StartWindow win=new StartWindow("Row Out Maze", 1000, 800);
 				win.run();
