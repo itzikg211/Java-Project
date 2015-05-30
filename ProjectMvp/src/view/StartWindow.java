@@ -26,66 +26,109 @@ import algorithms.search.Solution;
 
 public class StartWindow extends BasicWindow implements View
 {
-	Presenter p;
 	int numR = 0;
 	int numC = 0;
+	HashMap<String, Command> commands = new HashMap<String, Command>();
+	Command command;
 	Maze myMaze;
 	Solution sol;
 	public StartWindow(String title, int width, int height) 
 	{
 		super(title, width, height);
-		//BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		//PrintWriter writer = new PrintWriter(System.out);
-
 	}
 
 	@Override
-	public void start() {
-		// TODO Auto-generated method stub
+	public void start() 
+	{
+		setChanged();
+		notifyObservers("start");
+	}
+
+	@Override
+	public Command getUserCommand() 
+	{
+		return command;
+	}
+
+	@Override
+	public void displayMaze(Maze m) 
+	{
+		//need to complete TODO
 		
 	}
 
 	@Override
-	public Command getUserCommand() {
-		// TODO Auto-generated method stub
-		return null;
+	public void displaySolution(Solution s) 
+	{
+		//need to complete TODO
+		
+	}
+	
+	public void setChangedFunc()
+	{
+		setChanged();
 	}
 
 	@Override
-	public void displayMaze(Maze m) {
-		// TODO Auto-generated method stub
+	public void setCommands(HashMap<String, Command> commands2) 
+	{
+		this.commands = commands2;
 		
 	}
 
 	@Override
-	public void displaySolution(Solution s) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void setCommands(HashMap<String, Command> commands2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void printMessage(String str) {
-		// TODO Auto-generated method stub
+	public void printMessage(String str) 
+	{
+		MessageBox mb = new MessageBox(shell,0);
+		mb.setMessage(str);
+		mb.setText("Message");
+		mb.open();
 		
 	}
 
 	@Override
 	void initWidgets() 
 	{
-		
+		////All the widgets
 		shell.setLayout(new GridLayout(2,false));
 		
 		Label numOfRows = new Label(shell,SWT.NONE);
 		numOfRows.setText("Choose the number of rows");
-		numOfRows.setLayoutData(new GridData(SWT.NONE,SWT.NONE, false,false,1,1));
+		numOfRows.setLayoutData(new GridData(SWT.FILL,SWT.FILL, false,false,1,1));
 		Board maze=new Board(shell, SWT.BORDER);
-		maze.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,7));
+		maze.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,8));
+		
+		Combo rows = new Combo(shell, SWT.DROP_DOWN | SWT.BORDER | SWT.READ_ONLY);
+		rows.setLayoutData(new GridData(SWT.FILL,SWT.FILL, false,false,1,1));
+		for(int i=2;i<36;i++)
+		{
+			rows.add(i + " rows");
+		}
+		Label numOfCols = new Label(shell, SWT.COLOR_BLUE);
+		numOfCols.setText("Choose the number of columns");
+		numOfCols.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
+		Combo cols = new Combo(shell, SWT.DROP_DOWN | SWT.BORDER | SWT.READ_ONLY);
+		cols.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
+		for(int i=2;i<36;i++)
+		{
+			cols.add(i + " columns");
+		}
+		Button a=new Button(shell, SWT.PUSH);
+		a.setText("Generate the maze");
+		a.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
+		Button hint=new Button(shell, SWT.PUSH);
+		hint.setText("Give me a hint ✆");
+		hint.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
+		Button solve=new Button(shell, SWT.PUSH);
+		solve.setText("Solve the maze ☺");
+		solve.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
+		Button exit = new Button(shell, SWT.PUSH);
+		exit.setText("Exit");
+		exit.setLayoutData(new GridData(SWT.FILL,SWT.BOTTOM,false,false,1,1));
+		
+		
+		////All the listeners
+		
 		maze.addMouseWheelListener(new MouseWheelListener() {
 			
 			@Override
@@ -114,30 +157,10 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
-		Combo rows = new Combo(shell, SWT.DROP_DOWN | SWT.BORDER | SWT.READ_ONLY);
-		rows.setLayoutData(new GridData(SWT.NONE,SWT.NONE, false,false,1,1));
-		for(int i=2;i<36;i++)
-		{
-			rows.add(i + " rows");
-		}
-		Label numOfCols = new Label(shell, SWT.COLOR_BLUE);
-		numOfCols.setText("Choose the number of columns");
-		numOfCols.setLayoutData(new GridData(SWT.NONE,SWT.NONE, false,false,1,1));
-		Combo cols = new Combo(shell, SWT.DROP_DOWN | SWT.BORDER | SWT.READ_ONLY);
-		cols.setLayoutData(new GridData(SWT.NONE,SWT.NONE, false,false,1,1));
-		for(int i=2;i<36;i++)
-		{
-			cols.add(i + " columns");
-		}
-		Button a=new Button(shell, SWT.PUSH);
-		a.setText("Generate the maze");
-		a.setLayoutData(new GridData(SWT.NONE,SWT.NONE, false,false,1,1));
-		Button hint=new Button(shell, SWT.PUSH);
-		hint.setText("Give me a hint ✆");
-		hint.setLayoutData(new GridData(SWT.NONE,SWT.NONE, false,false,1,1));
-		Button solve=new Button(shell, SWT.PUSH);
-		solve.setText("Solve the maze ☺");
-		solve.setLayoutData(new GridData(SWT.NONE,SWT.NONE, false,false,1,1));
+		
+		
+		
+		
 		cols.addSelectionListener(new SelectionListener() 
 		{
 			
@@ -191,8 +214,6 @@ public class StartWindow extends BasicWindow implements View
 			{
 				if(numR != 0 && numC != 0)
 				{
-					//setChanged();
-					//notifyObservers("generate maze");
 					myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
 					maze.displayMaze(myMaze);
 					maze.forceFocus();					
@@ -302,15 +323,52 @@ public class StartWindow extends BasicWindow implements View
 			}
 			}
 			@Override
-			public void keyReleased(KeyEvent e) {
+			public void keyReleased(KeyEvent e) 
+			{
 				// TODO Auto-generated method stub
 				
 			}
 			
 		});
-		
+		exit.addSelectionListener(new SelectionListener() 
+		{
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) 
+			{
+				int style = SWT.ICON_QUESTION |SWT.YES | SWT.NO;
+				MessageBox mb = new MessageBox(shell,style);
+				mb.setMessage("Exit the game ?");
+				mb.setText("Confirm Exit");
+				int rc = mb.open();
+				switch(rc)
+				{
+				case SWT.YES:
+					display.dispose();				
+				break;
+				case SWT.NO:
+					break;
+				}
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) 
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
 
 		
+	}
+
+	public Command getCommand() {
+		return command;
+	}
+
+	public void setCommand(Command command) {
+		this.command = command;
 	}
 
 	

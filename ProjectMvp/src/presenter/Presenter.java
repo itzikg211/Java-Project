@@ -26,7 +26,6 @@ public class Presenter implements Observer{
 	HashMap<String, Maze> mazes = new HashMap<String, Maze>();
 	String command;
 	View v;
-	StartWindow sw;
 	Model m;
 	/**
 	 * Constructs and initializes the presenter
@@ -42,17 +41,6 @@ public class Presenter implements Observer{
 		commands.put("exit",  new Exit());
 		this.m=m;
 		this.v=v;
-	}
-	
-	public Presenter(Model m,StartWindow sw) 
-	{
-		commands.put("generate maze",  new generateMaze());
-		commands.put("display maze",  new displayMaze());
-		commands.put("solve maze",  new solveMaze());
-		commands.put("display solution",  new displaySolution());
-		commands.put("exit",  new Exit());
-		this.m=m;
-		this.sw = sw;
 	}
 	
 	/**
@@ -196,42 +184,7 @@ public class Presenter implements Observer{
 			v.printMessage((String)arg);
 		}
 		//////////////addition to the original presenter
-		
-		if(o==sw)
-		{
-			if(arg!=null)
-			{
-				if((String)arg=="start")
-					v.setCommands(this.commands);
-				else if((String)arg=="finish")
-				{
-					Exit e = new Exit();
-					try {
-						e.doCommand("null");
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
-				}
-				else 
-				{
-					Command c = v.getUserCommand();
-					this.command = (String)arg;
-					try {
-						c.doCommand(null);
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-			}
-		}
+
 		
 		
 		
