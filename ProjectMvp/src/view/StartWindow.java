@@ -34,8 +34,8 @@ public class StartWindow extends BasicWindow implements View
 	public StartWindow(String title, int width, int height) 
 	{
 		super(title, width, height);
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		PrintWriter writer = new PrintWriter(System.out);
+		//BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		//PrintWriter writer = new PrintWriter(System.out);
 
 	}
 
@@ -81,7 +81,7 @@ public class StartWindow extends BasicWindow implements View
 		
 		shell.setLayout(new GridLayout(2,false));
 		
-		Label numOfRows = new Label(shell, SWT.COLOR_BLUE);
+		Label numOfRows = new Label(shell,SWT.NONE);
 		numOfRows.setText("Choose the number of rows");
 		numOfRows.setLayoutData(new GridData(SWT.NONE,SWT.NONE, false,false,1,1));
 		Board maze=new Board(shell, SWT.BORDER);
@@ -191,6 +191,8 @@ public class StartWindow extends BasicWindow implements View
 			{
 				if(numR != 0 && numC != 0)
 				{
+					//setChanged();
+					//notifyObservers("generate maze");
 					myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
 					maze.displayMaze(myMaze);
 					maze.forceFocus();					

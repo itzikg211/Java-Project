@@ -234,10 +234,10 @@ public class Board extends Composite
 	{
 		return this.boatJ;
 	}
-	public void setPos(int a,int b)
+	public void setPos(int i,int j)
 	{
-		this.boatI=a;
-		this.boatJ=b;
+		this.boatI=i;
+		this.boatJ=j;
 	}
 	public Maze getMaze()
 	{

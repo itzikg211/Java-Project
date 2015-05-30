@@ -195,6 +195,46 @@ public class Presenter implements Observer{
 		{
 			v.printMessage((String)arg);
 		}
+		//////////////addition to the original presenter
+		
+		if(o==sw)
+		{
+			if(arg!=null)
+			{
+				if((String)arg=="start")
+					v.setCommands(this.commands);
+				else if((String)arg=="finish")
+				{
+					Exit e = new Exit();
+					try {
+						e.doCommand("null");
+					} catch (FileNotFoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else 
+				{
+					Command c = v.getUserCommand();
+					this.command = (String)arg;
+					try {
+						c.doCommand(null);
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
+		
+		
 	}
 	public String getCommand() {
 		return command;

@@ -7,6 +7,7 @@ import java.io.IOException;
 import model.MyModel;
 import presenter.Presenter;
 import presenter.Properties;
+import view.GUIStart;
 import view.MyView;
 import view.StartWindow;
 
@@ -41,7 +42,7 @@ public class Run {
 		
 		
 		//////////////////////////////////////////////////////////////////
-		MyModel m=new MyModel(new Properties());
+		/*MyModel m=new MyModel(new Properties());
 		Properties pro;
 		if((pro=readProperties())!=null)
 			m=new MyModel(pro);
@@ -51,7 +52,10 @@ public class Run {
 		Presenter p = new Presenter(m,win);
 		m.addObserver(p);
 		win.addObserver(p);
-		win.run();
+		win.run();*/
+		GUIStart gui = new GUIStart("Start",1000,800);
+		gui.run();
+		
 	}
 	/**
 	 * Reads the properties from the XML file and sets the project's properties.
