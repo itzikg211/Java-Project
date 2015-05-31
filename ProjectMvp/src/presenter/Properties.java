@@ -157,4 +157,7 @@ public class Properties implements Serializable {
 	public void setView(WayOfDisplay view) {
 		this.view = view;
 	}
+	
+	
+	
 }

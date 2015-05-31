@@ -1,11 +1,16 @@
 package view;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.beans.XMLDecoder;
+import java.beans.XMLEncoder;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.HashMap;
 
+import model.MyModel;
+
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -16,16 +21,22 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.swt.widgets.Label;
+import org.eclipse.swt.widgets.Menu;
+import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
 
 import presenter.Presenter;
+import presenter.Properties;
+import presenter.Properties.WayOfDisplay;
 import algorithms.mazeGenerators.DFSMazeGenerator;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 
 public class StartWindow extends BasicWindow implements View
 {
+	private Properties properties;
 	int numR = 0;
 	int numC = 0;
 	HashMap<String, Command> commands = new HashMap<String, Command>();
@@ -35,6 +46,7 @@ public class StartWindow extends BasicWindow implements View
 	public StartWindow(String title, int width, int height) 
 	{
 		super(title, width, height);
+		properties = new Properties();
 	}
 
 	@Override
@@ -92,11 +104,35 @@ public class StartWindow extends BasicWindow implements View
 		////All the widgets
 		shell.setLayout(new GridLayout(2,false));
 		
+	    // Create the bar menu
+	    Menu menuBar = new Menu(shell, SWT.BAR);
+
+	    // Create the File item's dropdown menu
+	    Menu fileMenu = new Menu(menuBar);
+	    Menu HelpMenu = new Menu(menuBar);
+	    // Create all the items in the bar menu
+	    MenuItem fileItem = new MenuItem(menuBar, SWT.CASCADE);
+	    fileItem.setText("File");
+	    fileItem.setMenu(fileMenu);
+	    MenuItem HelpItem = new MenuItem(menuBar, SWT.CASCADE);
+	    HelpItem.setText("Help");
+	    HelpItem.setMenu(HelpMenu);
+
+	    // Create all the items in the File dropdown menu
+	    MenuItem setPropertiesItem = new MenuItem(fileMenu, SWT.NONE);
+	    setPropertiesItem.setText("Set Properties");
+	    MenuItem exitItem = new MenuItem(fileMenu, SWT.NONE);
+	    exitItem.setText("Exit");
+	    MenuItem rules = new MenuItem(HelpMenu, SWT.NONE);
+	    rules.setText("Explaining the rules");
+	    MenuItem web = new MenuItem(HelpMenu, SWT.NONE);
+	    web.setText("Search in the web");
+	    shell.setMenuBar(menuBar);
 		Label numOfRows = new Label(shell,SWT.NONE);
 		numOfRows.setText("Choose the number of rows");
 		numOfRows.setLayoutData(new GridData(SWT.FILL,SWT.FILL, false,false,1,1));
 		Board maze=new Board(shell, SWT.BORDER);
-		maze.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,8));
+		maze.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,7));
 		
 		Combo rows = new Combo(shell, SWT.DROP_DOWN | SWT.BORDER | SWT.READ_ONLY);
 		rows.setLayoutData(new GridData(SWT.FILL,SWT.FILL, false,false,1,1));
@@ -104,7 +140,7 @@ public class StartWindow extends BasicWindow implements View
 		{
 			rows.add(i + " rows");
 		}
-		Label numOfCols = new Label(shell, SWT.COLOR_BLUE);
+		Label numOfCols = new Label(shell, SWT.NONE);
 		numOfCols.setText("Choose the number of columns");
 		numOfCols.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
 		Combo cols = new Combo(shell, SWT.DROP_DOWN | SWT.BORDER | SWT.READ_ONLY);
@@ -122,9 +158,6 @@ public class StartWindow extends BasicWindow implements View
 		Button solve=new Button(shell, SWT.PUSH);
 		solve.setText("Solve the maze ☺");
 		solve.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
-		Button exit = new Button(shell, SWT.PUSH);
-		exit.setText("Exit");
-		exit.setLayoutData(new GridData(SWT.FILL,SWT.BOTTOM,false,false,1,1));
 		
 		
 		////All the listeners
@@ -212,6 +245,20 @@ public class StartWindow extends BasicWindow implements View
 			@Override
 			public void widgetSelected(SelectionEvent e) 
 			{
+				//Setting up the properties before lunching the game
+				XMLEncoder xmle = null;
+				try 
+				{
+					xmle = new XMLEncoder(new FileOutputStream("src/properties.xml"));
+					xmle.writeObject(properties);
+				} 
+				catch (FileNotFoundException e1) 
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				xmle.flush();
+				xmle.close();
 				if(numR != 0 && numC != 0)
 				{
 					myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
@@ -330,7 +377,7 @@ public class StartWindow extends BasicWindow implements View
 			}
 			
 		});
-		exit.addSelectionListener(new SelectionListener() 
+		exitItem.addSelectionListener(new SelectionListener() 
 		{
 			
 			@Override
@@ -360,6 +407,89 @@ public class StartWindow extends BasicWindow implements View
 			}
 		});
 
+		setPropertiesItem.addSelectionListener(new SelectionListener() 
+		{
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) 
+			{
+				FileDialog fd=new FileDialog(shell,SWT.OPEN);
+				fd.setText("open");
+				fd.setFilterPath("");
+				String[] filterExt = { "*.xml" };
+				fd.setFilterExtensions(filterExt);
+				String fileName = fd.open();
+				XMLDecoder d = null;
+				try 
+				{
+					d = new XMLDecoder(new FileInputStream(fileName));
+					properties=(Properties)d.readObject();
+				} 
+				catch (FileNotFoundException e1) 
+				{
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				
+				d.close();
+				
+				//we check here if we need to change the way of display
+				if(properties.getView() == WayOfDisplay.ECLIPSE_CONSOLE)
+				{
+					display.dispose();
+					MyModel m = new MyModel(properties);
+					MyView v = new MyView();
+					Presenter p = new Presenter(m,v);
+					m.addObserver(p);
+					v.addObserver(p);
+					v.start();
+				}
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) 
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		web.addSelectionListener(new SelectionListener() 
+		{
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) 
+			{
+				org.eclipse.swt.program.Program.launch("https://www.google.co.il/webhp?sourceid=chrome-instant&ion=1&espv=2&ie=UTF-8#q=solve%20a%20maze");
+				
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0) 
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		rules.addSelectionListener(new SelectionListener() 
+		{
+			
+			@Override
+			public void widgetSelected(SelectionEvent arg0) 
+			{
+				MessageBox messageBox = new MessageBox(shell, SWT.ICON_INFORMATION);
+			    messageBox.setMessage("Move the Boat using the arrows keys or by dragging the boat.\nYou may set the properties as you like by loading an xml file. Enjoy!");
+			    messageBox.setText("Information");
+			    messageBox.open();
+
+			}
+			
+			@Override
+			public void widgetDefaultSelected(SelectionEvent arg0)
+			{
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
 	}
 

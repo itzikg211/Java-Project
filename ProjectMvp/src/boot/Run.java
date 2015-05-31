@@ -59,12 +59,13 @@ public class Run {
 			properties.setDiagonal(true);
 			properties.setDiagonalMovementCost(16);
 			properties.setThreadNumber(3);
+			properties.setView(WayOfDisplay.ECLIPSE_CONSOLE);
 			encoder.writeObject(properties);
 			encoder.close();
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}	*/	
+		}	*/
 		
 		
 	}
@@ -77,7 +78,7 @@ public class Run {
 		XMLDecoder d;
 		Properties p=null;
 		try {
-			FileInputStream in=new FileInputStream("properties.xml");
+			FileInputStream in=new FileInputStream("src/properties.xml");
 			d=new XMLDecoder(in);
 			p=(Properties)d.readObject();
 			d.close();
