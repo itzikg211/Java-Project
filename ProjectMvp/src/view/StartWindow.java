@@ -264,8 +264,8 @@ public class StartWindow extends BasicWindow implements View
 				{
 					myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
 					maze.displayMaze(myMaze);
+					maze.setCharacterPosition(maze.getX(),maze.getY());
 					maze.forceFocus();
-					b = new Boat(38, 38);
 				}
 				else
 				{
@@ -315,6 +315,7 @@ public class StartWindow extends BasicWindow implements View
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+				
 				if(e.keyCode == SWT.ESC)
 				{
 					display.dispose ();
@@ -327,7 +328,7 @@ public class StartWindow extends BasicWindow implements View
 					{
 						System.out.println("CAN MOVE");
 						maze.setPos(maze.getX()-1,maze.getY());
-						maze.setCharacterPosition(maze.getX()-1,maze.getY());
+						maze.setCharacterPosition(maze.getX(),maze.getY());
 						//fucntion to set the image
 					}
 				}
@@ -341,7 +342,7 @@ public class StartWindow extends BasicWindow implements View
 				{
 					System.out.println("CAN MOVE");
 					maze.setPos(maze.getX()+1,maze.getY());
-					maze.setCharacterPosition(maze.getX()+1,maze.getY());
+					maze.setCharacterPosition(maze.getX(),maze.getY());
 					//fucntion to set the image
 				}
 				/*else
@@ -354,7 +355,7 @@ public class StartWindow extends BasicWindow implements View
 				{
 					System.out.println("CAN MOVE");
 					maze.setPos(maze.getX(),maze.getY()-1);
-					maze.setCharacterPosition(maze.getX(),maze.getY()-1);
+					maze.setCharacterPosition(maze.getX(),maze.getY());
 					//fucntion to set the image
 				}
 				/*else
@@ -367,12 +368,19 @@ public class StartWindow extends BasicWindow implements View
 				{
 					System.out.println("CAN MOVE");
 					maze.setPos(maze.getX(),maze.getY()+1);
-					maze.setCharacterPosition(maze.getX(),maze.getY()+1);
+					maze.setCharacterPosition(maze.getX(),maze.getY());
 					//fucntion to set the image
 				}
 				/*else
 					System.out.println("CAN NOT MOVE");*/
 				
+			}
+			if(maze.getX() == maze.mazeR - 1 && maze.getY() == maze.mazeC - 1)
+			{
+				MessageBox messageBox = new MessageBox(shell, SWT.NONE);
+			    messageBox.setMessage("You Won !");
+			    messageBox.setText("congratulations");
+			    messageBox.open();
 			}
 			}
 			@Override

@@ -9,12 +9,11 @@ import org.eclipse.swt.widgets.Composite;
 
 public class Tile extends Canvas
 {
-	Image tileImg;
-	Image boatImg;
+	Image tileImg = null;
+	Image boatImg = null;
 	Boat b;
 	public Tile(Composite parent, int style) {
 		super(parent, style);
-		b =  new Boat(0,0);
 		addPaintListener(new PaintListener() {
 			
 			@Override
@@ -24,11 +23,9 @@ public class Tile extends Canvas
 					int height=getSize().y;
 			        ImageData data = tileImg.getImageData();
 			        e.gc.drawImage(tileImg,0,0,data.width,data.height,0,0,width,height);
-			        if(b.image!=null)
-			        {
 			        	//e.gc.drawOval(0, 0, width, height);
+			        if(boatImg!=null)
 			        	e.gc.drawImage(boatImg, 0, 0, boatImg.getImageData().width,boatImg.getImageData().height,0,0,(int)(getSize().x * 0.7), (int)(getSize().y * 0.7));
-			        }
 			}
 		});
 		
@@ -42,8 +39,8 @@ public class Tile extends Canvas
 	}
 	public void setBoatImg(Image img)
 	{
-		if(this.boatImg!=null)
-			this.boatImg.dispose();
+		/*if(this.boatImg!=null)
+			this.boatImg.dispose();*/
 		this.boatImg=img;
 		redraw();
 	}

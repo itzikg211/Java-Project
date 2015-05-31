@@ -30,20 +30,22 @@ public class Board extends Composite
 		super(parent, style);
 		this.boatI=0;
 		this.boatJ=0;
-		b = new Boat(0,0);
+		b = new Boat();
+		b.setImage(new Image(getDisplay(),new ImageData("resources/boat-right.jpg")));
 		addPaintListener(new PaintListener() 
 		{
-			
 			@Override
 			public void paintControl(PaintEvent arg0) 
 			{
 				if(tiles!=null)
 				{
+					tiles[0][0].redraw();
+					tiles[0][0].setBoatImg(b.getImage());
 					for(int i=0;i<tiles.length;i++)
 						for(int j=0;j<tiles[0].length;j++)
 							tiles[i][j].redraw();
+					b.paint(arg0 ,0, 0, 1);
 				}
-				b.paint(arg0 ,0, 0, 1);
 			}
 		});
 	}
@@ -252,7 +254,7 @@ public class Board extends Composite
 	{
 		tiles[boatI][boatJ].setBoatImg(null);
 		tiles[boatI][boatJ].redraw();
-		tiles[i][j].setBoatImg(b.image);
+		tiles[i][j].setBoatImg(b.boatImg);
 		tiles[i][j].redraw();
 		boatI = i;
 		boatJ = j;
