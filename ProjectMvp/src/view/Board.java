@@ -24,11 +24,13 @@ public class Board extends Composite
 	Maze m;
 	int boatI;
 	int boatJ;
+	Boat b;
 	public Board(Composite parent, int style) 
 	{
 		super(parent, style);
 		this.boatI=0;
 		this.boatJ=0;
+		b = new Boat(0,0);
 		addPaintListener(new PaintListener() 
 		{
 			
@@ -36,9 +38,12 @@ public class Board extends Composite
 			public void paintControl(PaintEvent arg0) 
 			{
 				if(tiles!=null)
+				{
 					for(int i=0;i<tiles.length;i++)
 						for(int j=0;j<tiles[0].length;j++)
 							tiles[i][j].redraw();
+				}
+				b.paint(arg0 ,0, 0, 1);
 			}
 		});
 	}
@@ -242,5 +247,14 @@ public class Board extends Composite
 	public Maze getMaze()
 	{
 		return this.m;
+	}
+	public void setCharacterPosition(int i,int j)
+	{
+		tiles[boatI][boatJ].setBoatImg(null);
+		tiles[boatI][boatJ].redraw();
+		tiles[i][j].setBoatImg(b.image);
+		tiles[i][j].redraw();
+		boatI = i;
+		boatJ = j;
 	}
 }

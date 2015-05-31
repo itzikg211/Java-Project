@@ -43,6 +43,7 @@ public class StartWindow extends BasicWindow implements View
 	Command command;
 	Maze myMaze;
 	Solution sol;
+	Boat b;
 	public StartWindow(String title, int width, int height) 
 	{
 		super(title, width, height);
@@ -263,7 +264,8 @@ public class StartWindow extends BasicWindow implements View
 				{
 					myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
 					maze.displayMaze(myMaze);
-					maze.forceFocus();					
+					maze.forceFocus();
+					b = new Boat(38, 38);
 				}
 				else
 				{
@@ -325,6 +327,7 @@ public class StartWindow extends BasicWindow implements View
 					{
 						System.out.println("CAN MOVE");
 						maze.setPos(maze.getX()-1,maze.getY());
+						maze.setCharacterPosition(maze.getX()-1,maze.getY());
 						//fucntion to set the image
 					}
 				}
@@ -338,6 +341,7 @@ public class StartWindow extends BasicWindow implements View
 				{
 					System.out.println("CAN MOVE");
 					maze.setPos(maze.getX()+1,maze.getY());
+					maze.setCharacterPosition(maze.getX()+1,maze.getY());
 					//fucntion to set the image
 				}
 				/*else
@@ -350,6 +354,7 @@ public class StartWindow extends BasicWindow implements View
 				{
 					System.out.println("CAN MOVE");
 					maze.setPos(maze.getX(),maze.getY()-1);
+					maze.setCharacterPosition(maze.getX(),maze.getY()-1);
 					//fucntion to set the image
 				}
 				/*else
@@ -362,6 +367,7 @@ public class StartWindow extends BasicWindow implements View
 				{
 					System.out.println("CAN MOVE");
 					maze.setPos(maze.getX(),maze.getY()+1);
+					maze.setCharacterPosition(maze.getX(),maze.getY()+1);
 					//fucntion to set the image
 				}
 				/*else
