@@ -8,6 +8,7 @@ import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.RGB;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -18,7 +19,6 @@ import algorithms.mazeGenerators.Maze;
 
 public class Board extends Composite
 {
-	Boat b;
 	int mazeR;
 	int mazeC;
 	Tile[][] tiles;
@@ -28,11 +28,11 @@ public class Board extends Composite
 	int boatJ;
 	Image beforeImage;
 	PaintEvent pe;
+	int dir;
 	public Board(Composite parent, int style) 
 	{
 		super(parent, style);
-		b = new Boat(38, 38);
-		image = new Image(getDisplay(), new ImageData("resources/boat-right.jpg"));
+		//image = new Image(getDisplay(), new ImageData("resources/boat-right.jpg"));
 		this.boatI=0;
 		this.boatJ=0;
 		addPaintListener(new PaintListener() 
@@ -42,11 +42,21 @@ public class Board extends Composite
 			{
 				pe = arg0;
 				if(tiles!=null)
+				{
 					for(int i=0;i<tiles.length;i++)
 						for(int j=0;j<tiles[0].length;j++)
-							tiles[i][j].redraw();				
+							tiles[i][j].redraw();
+				}
+				if(tiles==null){
+					int width=(int)(parent.getSize().x*0.80);
+					int height=(int)(parent.getSize().y*0.85);
+					ImageData data = new ImageData("resources/mainPic.png");
+					arg0.gc.drawImage(new Image(getDisplay(),"resources/mainPic.png"),0,0,data.width,data.height,0,0,width, height);
+				}
 			}
 		});
+
+		
 	}
 	
 	public void displayMaze(Maze m)
@@ -57,8 +67,9 @@ public class Board extends Composite
 			delMaze();
 		mazeR=m.getRows();
 		mazeC=m.getCols();
-		b.setSize(getSize().x/mazeR, getSize().y/mazeC);
+
 		System.out.println("Display");
+		
 		GridLayout layout=new GridLayout(mazeC, true);
 		layout.horizontalSpacing=0;
 		layout.verticalSpacing=0;
@@ -74,53 +85,69 @@ public class Board extends Composite
 				tiles[i][j].setImage(temp);
 				tiles[i][j].setBeforeImage(temp);
 			}
+    	tiles[0][0].setFirstTile(true);
+		//Image image = new Image(getDisplay(), "resources/boat-right.jpg");
 		
-		Image image = new Image(getDisplay(), "resources/boat-right.jpg");
-		Image scaled = new Image(null, image.getImageData().scaledTo(80, 200));
-		this.beforeImage = tiles[0][0].getImage();
-		tiles[0][0].setImage(scaled);	
+		//Image scaled = new Image(null, image.getImageData());
+		//this.beforeImage = tiles[0][0].getImage();
+		//tiles[0][0].setImage(scaled);	
 		layout();
 	}
-	public void printBoat(int dir,int i,int j)
+
+	public void setBoatPosition(int i, int j) 
 	{
+		tiles[boatI][boatJ].setBoatImage(null);
+		tiles[boatI][boatJ].redraw();
+		tiles[i][j].setBoatImage(chooseOption(dir,i,j));
+		tiles[i][j].redraw();
+		boatI = i;
+		boatJ = j;
+	}
+		
+	public Image chooseOption(int dir, int i, int j)
+ 	{
+		tiles[0][0].redraw();
 		int x,y;
 		x=0;
 		y=0;
 		Image image2=null;
+		
 		if(dir==0)
 		{
 			x=i+1;
 			y=j;
-			image2 = new Image(getDisplay(), "resources/boat-up.jpg");
+			image2 = new Image(null, "resources/boat-up.jpg");
+			//setBoatImg(image2);
+			
 		}
 		if(dir==1)
 		{
 			x=i;
 			y=j-1;
-			image2 = new Image(getDisplay(), "resources/boat-right.jpg");
+			image2 = new Image(null, "resources/boat-right.jpg");
+			//setBoatImg(image2);
 		}
 		if(dir==2)
 		{
 			x=i-1;
 			y=j;
-			image2 = new Image(getDisplay(), "resources/boat-down.jpg");
+			image2 = new Image(null, "resources/boat-down.jpg");
+			//setBoatImg(image2);
+			
 		}
 		if(dir==3)
 		{
 			x=i;
 			y=j+1;
-			image2 = new Image(getDisplay(), "resources/boat-left.jpg");
+			image2 = new Image(null, "resources/boat-left.jpg");
+			//setBoatImg(image2);
 		}
-		Image scaled = new Image(null, image2.getImageData().scaledTo(80, 80));
-		tiles[x][y].setImage(this.beforeImage);
-		this.beforeImage=tiles[i][j].getImage();
-		tiles[i][j].setBoatImage(scaled);
-		
-		
-		
-	}
+		return image2;
+ 	}
 	public boolean canMove(int i,int j,int dir)
 	{
+		boatI = i;
+		boatJ = j;
 		System.out.println();
 		//0 means top
 		if(dir==0)
@@ -298,5 +325,13 @@ public class Board extends Composite
 	public Maze getMaze()
 	{
 		return this.m;
+	}
+
+	public int getDir() {
+		return dir;
+	}
+
+	public void setDir(int dir) {
+		this.dir = dir;
 	}
 }
