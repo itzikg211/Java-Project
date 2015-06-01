@@ -17,4 +17,5 @@ public interface View {
 	void setCommands(HashMap<String, Command> commands2);
 	public void printMessage(String str);
 	void setGuiMaze(Maze m);
+	public void setGuiSolution(Solution s);
 }

@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import java.nio.channels.Selector;
 import java.util.HashMap;
 
 import model.MyModel;
@@ -28,6 +29,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Text;
 
 import presenter.Presenter;
 import presenter.Properties;
@@ -156,6 +158,9 @@ public class StartWindow extends BasicWindow implements View
 			cols.add(i + " columns");
 		}
 		Button a=new Button(shell, SWT.PUSH);
+		Text t = new Text(shell, SWT.BORDER);
+		t.setLayoutData(new GridData(SWT.NONE,SWT.TOP, false,false,1,1));
+		t.setText("");
 		a.setText("Generate the maze");
 		a.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
 		Button hint=new Button(shell, SWT.PUSH);
@@ -267,19 +272,41 @@ public class StartWindow extends BasicWindow implements View
 				xmle.close();
 				if(numR != 0 && numC != 0)
 				{
-					String str = "gogo";
-					String send = "generate maze ";
-					send = send + str;
-					send = send + " " + numR + " " + numC ;
-					
-					setChanged();
-					notifyObservers(send);
-					maze.displayMaze(myMaze);
-					//maze.printBoat();
-					maze.forceFocus();
-					
-					/*maze.displayMaze(new DFSMazeGenerator().generateMaze(numR, numC));
-					maze.forceFocus();*/
+
+					String str = t.getText();
+					if(str.equals(""))
+					{
+						MessageBox m2 = new MessageBox(shell);
+						m2.setText("BAD INPUT");
+						m2.setMessage("You didnt input maze's name");
+						m2.open();
+					}
+					else
+					{
+						maze.setX(0);
+						maze.setY(0);
+						myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
+						String send = "generate maze ";
+						send = send + str;
+						send = send + " " + numR + " " + numC ;
+						setChanged();
+						notifyObservers(send);
+						if(myMaze!=null)
+						{
+							maze.displayMaze(myMaze);
+							//maze.printBoat();
+							maze.forceFocus();
+						}			
+						else
+						{
+							MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR);
+							mb.setText("Error naming the maze");
+							mb.setMessage("theres already a maze named " + t.getText());
+							mb.open();
+						}
+						/*maze.displayMaze(new DFSMazeGenerator().generateMaze(numR, numC));
+						maze.forceFocus();*/
+					}
 				}
 				else
 				{
@@ -314,9 +341,29 @@ public class StartWindow extends BasicWindow implements View
 		solve.addSelectionListener(new SelectionListener() {
 			
 			@Override
-			public void widgetSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
-				
+			public void widgetSelected(SelectionEvent arg0) 
+			{
+				String send;
+				send = "gui solve maze ";
+				if(t.getText()!="")
+				{
+					send = send + t.getText();
+					System.out.println("Send : " + send);
+					setChanged();
+					notifyObservers(send);
+					Solution s2 = sol;
+					if(s2==null)
+					{
+						System.out.println("null");
+					}
+				}
+				else
+				{
+					MessageBox msg = new MessageBox(shell,SWT.ICON_ERROR);
+					msg.setText("Error naming the maze");
+					msg.setMessage("You cant solve the maze without the name ");
+					msg.open();
+				}
 			}
 			
 			@Override
@@ -534,6 +581,12 @@ public class StartWindow extends BasicWindow implements View
 	{
 		this.myMaze = m;
 		
+	}
+
+	@Override
+	public void setGuiSolution(Solution s) 
+	{
+		sol = s;
 	}
 
 	

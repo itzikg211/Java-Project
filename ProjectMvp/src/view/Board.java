@@ -59,7 +59,6 @@ public class Board extends Composite
 		mazeC=m.getCols();
 		b.setSize(getSize().x/mazeR, getSize().y/mazeC);
 		System.out.println("Display");
-		
 		GridLayout layout=new GridLayout(mazeC, true);
 		layout.horizontalSpacing=0;
 		layout.verticalSpacing=0;

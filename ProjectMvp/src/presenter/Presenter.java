@@ -16,6 +16,7 @@ import view.Command;
 import view.StartWindow;
 import view.View;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.Solution;
 /**
  * This is the presenter we use in our project in the MVP pattern
  * @author user1
@@ -45,7 +46,7 @@ public class Presenter implements Observer{
 	
 	/**
 	 * the generate maze command. using the model and the view to generate a selected maze.
-	 * @author Ran Sarussi
+	 * @author Ran Sarussi 
 	 *
 	 */
 	public class generateMaze implements Command
@@ -155,36 +156,44 @@ public class Presenter implements Observer{
 					Maze m = setGuiMaze(Integer.parseInt(w[3]), Integer.parseInt(w[4]), w[2]);
 					v.setGuiMaze(m);
 				}
+				else if(str.startsWith("gui solve maze"))
+				{
+					System.out.println("solving maze bitch");
+					String[] sw3 = str.split(" ");
+					GuiSolution(sw3[3]);
+					Solution s3 = m.getSolution();
+					v.setGuiSolution(s3);
+				}
 				else
 				{
-				if((String)arg=="start")
-					v.setCommands(this.commands);
-				else if((String)arg=="finish")
-				{
-					Exit e = new Exit();
-					try {
-						e.doCommand("null");
-					} catch (FileNotFoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					if((String)arg=="start")
+						v.setCommands(this.commands);
+					else if((String)arg=="finish")
+					{
+						Exit e = new Exit();
+						try {
+							e.doCommand("null");
+						} catch (FileNotFoundException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						} catch (IOException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 					}
-				}
-				else 
-				{
-					Command c = v.getUserCommand();
-					this.command = (String)arg;
-					try {
-						c.doCommand(null);
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					else 
+					{
+						Command c = v.getUserCommand();
+						this.command = (String)arg;
+						try {
+							c.doCommand(null);
+						} catch (FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 				}
 			}
 			}
@@ -218,13 +227,16 @@ public class Presenter implements Observer{
 		this.m = m;
 	}
 	
-	
+	public void GuiSolution(String name)
+	{
+		m.solveMaze(mazes.get(name));
+		
+	}
 	public Maze setGuiMaze(int rows,int cols,String name)
 	{
 		if(mazes.keySet().contains(name))
 		{
-			System.out.println("TRY");
-			System.out.println("The maze already exist");
+			System.out.println("The maze " + name + " already exist");
 			return null;
 		}
 		m.generateMaze(rows,cols);
