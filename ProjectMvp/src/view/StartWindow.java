@@ -271,12 +271,15 @@ public class StartWindow extends BasicWindow implements View
 					String send = "generate maze ";
 					send = send + str;
 					send = send + " " + numR + " " + numC ;
-					setCommand(new );
+					
 					setChanged();
 					notifyObservers(send);
 					maze.displayMaze(myMaze);
 					//maze.printBoat();
 					maze.forceFocus();
+					
+					/*maze.displayMaze(new DFSMazeGenerator().generateMaze(numR, numC));
+					maze.forceFocus();*/
 				}
 				else
 				{

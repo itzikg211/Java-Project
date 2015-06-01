@@ -148,6 +148,15 @@ public class Presenter implements Observer{
 		{
 			if(arg!=null)
 			{
+				String str = (String)arg;
+				if(str.startsWith("generate maze"))
+				{
+					String [] w = str.split(" ");
+					Maze m = setGuiMaze(Integer.parseInt(w[3]), Integer.parseInt(w[4]), w[2]);
+					v.setGuiMaze(m);
+				}
+				else
+				{
 				if((String)arg=="start")
 					v.setCommands(this.commands);
 				else if((String)arg=="finish")
@@ -177,6 +186,7 @@ public class Presenter implements Observer{
 						e.printStackTrace();
 					}
 				}
+			}
 			}
 		}
 		if (o==m)
@@ -208,5 +218,19 @@ public class Presenter implements Observer{
 		this.m = m;
 	}
 	
+	
+	public Maze setGuiMaze(int rows,int cols,String name)
+	{
+		if(mazes.keySet().contains(name))
+		{
+			System.out.println("TRY");
+			System.out.println("The maze already exist");
+			return null;
+		}
+		m.generateMaze(rows,cols);
+		Maze maze = m.getMaze();
+		mazes.put(name, maze);
+		return maze;
+	}
 
 }
