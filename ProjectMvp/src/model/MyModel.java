@@ -303,6 +303,7 @@ public class MyModel extends Observable implements Model
 				this.msols.put(MazeName,temp1);
 			}
 			
+			
 			else
 			{
 				System.out.println("You entered the same name for two different mazes, This maze and solution won't go inside the database.");
