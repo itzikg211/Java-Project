@@ -290,6 +290,7 @@ public class MyModel extends Observable implements Model
 			session.beginTransaction();
 			MazeSolutionHibernate msh = new MazeSolutionHibernate();
 			Set<String> names = msols.keySet();
+			
 			if(!names.contains(MazeName))
 			{
 				msh.setMaze(maze.toString());
