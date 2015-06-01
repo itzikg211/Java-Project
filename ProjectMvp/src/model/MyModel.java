@@ -217,7 +217,7 @@ public class MyModel extends Observable implements Model
 		}
 		else
 		{
-			Future<Solution> future;
+			Future<Solution> future = null;
 			switch(pro.getMazeSolver())
 			{
 			case BFS_DIAGONAL:
@@ -280,6 +280,17 @@ public class MyModel extends Observable implements Model
 			break;
 			}
 			
+			Solution sol1;
+			try {
+				//////////////////////////added here the get function!!!!!!!!!!!!!!!!!!!!!!!!!!
+				sol1 = future.get();
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			/////here we communicate with the database
 			
 			Configuration configuration = new Configuration();
@@ -290,7 +301,6 @@ public class MyModel extends Observable implements Model
 			session.beginTransaction();
 			MazeSolutionHibernate msh = new MazeSolutionHibernate();
 			Set<String> names = msols.keySet();
-			
 			if(!names.contains(MazeName))
 			{
 				msh.setMaze(maze.toString());
@@ -302,8 +312,6 @@ public class MyModel extends Observable implements Model
 				temp1.put(maze, sol);
 				this.msols.put(MazeName,temp1);
 			}
-			
-			
 			else
 			{
 				System.out.println("You entered the same name for two different mazes, This maze and solution won't go inside the database.");
