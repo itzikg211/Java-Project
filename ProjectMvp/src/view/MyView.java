@@ -83,5 +83,11 @@ public class MyView extends Observable implements View {
 		else
 			System.out.println("Solution is not exist yet");
 	}
+	@Override
+	public void setGuiMaze(Maze m) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 }

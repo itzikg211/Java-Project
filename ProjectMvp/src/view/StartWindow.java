@@ -2,15 +2,17 @@ package view;
 
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
+import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.HashMap;
 
 import model.MyModel;
 
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
@@ -48,6 +50,9 @@ public class StartWindow extends BasicWindow implements View
 	{
 		super(title, width, height);
 		properties = new Properties();
+		b = new Boat(38,38);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		PrintWriter writer = new PrintWriter(System.out);
 	}
 
 	@Override
@@ -262,9 +267,15 @@ public class StartWindow extends BasicWindow implements View
 				xmle.close();
 				if(numR != 0 && numC != 0)
 				{
-					myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
+					String str = "gogo";
+					String send = "generate maze ";
+					send = send + str;
+					send = send + " " + numR + " " + numC ;
+					setCommand(new );
+					setChanged();
+					notifyObservers(send);
 					maze.displayMaze(myMaze);
-					maze.setCharacterPosition(maze.getX(),maze.getY());
+					//maze.printBoat();
 					maze.forceFocus();
 				}
 				else
@@ -311,11 +322,14 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
+		MessageBox m = new MessageBox(shell);
+		m.setText("You finished");
 		maze.addKeyListener(new KeyListener(){
-
+			
 			@Override
 			public void keyPressed(KeyEvent e) {
 				
+				System.out.println("Place : "+maze.getX()+","+maze.getY());
 				if(e.keyCode == SWT.ESC)
 				{
 					display.dispose ();
@@ -328,13 +342,14 @@ public class StartWindow extends BasicWindow implements View
 					{
 						System.out.println("CAN MOVE");
 						maze.setPos(maze.getX()-1,maze.getY());
-						maze.setCharacterPosition(maze.getX(),maze.getY());
-						//fucntion to set the image
+						
+						maze.printBoat(0, maze.getX(), maze.getY());
 					}
+					else
+						System.out.println("CAN NOT MOVE");
 				}
 					 
-				/*else
-					System.out.println("CAN NOT MOVE");*/
+				
 			if(e.keyCode == SWT.ARROW_DOWN)
 			{
 				System.out.println("down");
@@ -342,11 +357,10 @@ public class StartWindow extends BasicWindow implements View
 				{
 					System.out.println("CAN MOVE");
 					maze.setPos(maze.getX()+1,maze.getY());
-					maze.setCharacterPosition(maze.getX(),maze.getY());
-					//fucntion to set the image
+					maze.printBoat(2, maze.getX(), maze.getY());
 				}
-				/*else
-					System.out.println("CAN NOT MOVE");*/
+				else
+					System.out.println("CAN NOT MOVE");
 			}
 			if(e.keyCode == SWT.ARROW_LEFT)
 			{
@@ -355,11 +369,10 @@ public class StartWindow extends BasicWindow implements View
 				{
 					System.out.println("CAN MOVE");
 					maze.setPos(maze.getX(),maze.getY()-1);
-					maze.setCharacterPosition(maze.getX(),maze.getY());
-					//fucntion to set the image
+					maze.printBoat(3, maze.getX(), maze.getY());
 				}
-				/*else
-					System.out.println("CAN NOT MOVE");*/
+				else
+					System.out.println("CAN NOT MOVE");
 			}
 			if(e.keyCode == SWT.ARROW_RIGHT)
 			{
@@ -368,29 +381,27 @@ public class StartWindow extends BasicWindow implements View
 				{
 					System.out.println("CAN MOVE");
 					maze.setPos(maze.getX(),maze.getY()+1);
-					maze.setCharacterPosition(maze.getX(),maze.getY());
-					//fucntion to set the image
+					maze.printBoat(1, maze.getX(), maze.getY());
 				}
-				/*else
-					System.out.println("CAN NOT MOVE");*/
-				
-			}
-			if(maze.getX() == maze.mazeR - 1 && maze.getY() == maze.mazeC - 1)
-			{
-				MessageBox messageBox = new MessageBox(shell, SWT.NONE);
-			    messageBox.setMessage("You Won !");
-			    messageBox.setText("congratulations");
-			    messageBox.open();
-			}
-			}
-			@Override
-			public void keyReleased(KeyEvent e) 
-			{
-				// TODO Auto-generated method stub
+				else
+					System.out.println("CAN NOT MOVE");
 				
 			}
 			
+			
+			}
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(maze.getX()==maze.mazeR-1 & maze.getY()==maze.mazeC-1)
+				{
+					System.out.println("FINISHED!");
+					m.setMessage("Congrats! you finished the maze!");
+					m.open();
+				}
+			}
+			
 		});
+			
 		exitItem.addSelectionListener(new SelectionListener() 
 		{
 			
@@ -513,6 +524,13 @@ public class StartWindow extends BasicWindow implements View
 
 	public void setCommand(Command command) {
 		this.command = command;
+	}
+
+	@Override
+	public void setGuiMaze(Maze m) 
+	{
+		this.myMaze = m;
+		
 	}
 
 	

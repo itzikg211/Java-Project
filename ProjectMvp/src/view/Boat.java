@@ -3,42 +3,47 @@ package view;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
+import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.widgets.Canvas;
+import org.eclipse.swt.widgets.Display;
 
-public class Boat 
-{
-	int i,j;
-	Image boatImg;
-
-	public void paint(PaintEvent e,int i,int j,int dir)
+public class Boat{
+	int x,y;
+	int w,h;
+	Image image;
+	
+	public Boat(int a,int b)
 	{
+		this.x=a;
+		this.y=b;
+		
+	}
+	public void setSize(int x,int y)
+	{
+		this.w=x;
+		this.h=y;
+	}
+	public void addX(int a)
+	{
+		this.x+=a;
+	}
+	public void addY(int b)
+	{
+		this.y+=b;
+	}
+
+	public void paint(Image im,PaintEvent e,int i,int j,int dir)
+	{
+		/*x=38;
+		y=38;
 		e.gc.setForeground(new Color(null,0,255,0));
 		e.gc.setBackground(new Color(null,0,255,0));
-		//0 means top
-		//e.gc.fillOval(i, j, x, y);
-		if(boatImg!=null)
-		{
-			e.gc.drawImage(boatImg, 0, 0, boatImg.getImageData().width,boatImg.getImageData().height,0,0,(int)(e.height * 0.7), (int)(e.width * 0.7));
-		}	
+		int x = j*w + this.x;
+		int y = i*h + this.y;
+		Image image = new Image(e.display, "resources/boat-right.jpg");
+		Image scaled = new Image(null, image.getImageData().scaledTo(100, 100));
+		e.gc.drawImage(scaled, 20, 20);*/
+		//e.gc.setForeground(new Color(null,255,0,0));
+		//e.gc.setBackground(new Color(null,255,0,0));
 	}
-	public Image getImage() 
-	{
-		return boatImg;
-	}
-	public void setImage(Image image) 
-	{
-		this.boatImg = image;
-	}
-	public int getI() {
-		return i;
-	}
-	public void setI(int i) {
-		this.i = i;
-	}
-	public int getJ() {
-		return j;
-	}
-	public void setJ(int j) {
-		this.j = j;
-	}
-
 }
