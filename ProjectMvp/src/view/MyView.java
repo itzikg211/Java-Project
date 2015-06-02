@@ -68,13 +68,19 @@ public class MyView extends Observable implements View {
 	{
 		return command;
 	}
-
+	/**
+	 * Dispplays the selected maze
+	 * @param m the selected maze
+	 */
 	@Override
 	public void displayMaze(Maze m) 
 	{
 		m.print();
 	}
-
+	/**
+	 * Displays the selected solution
+	 * @param s the selected solution
+	 */
 	@Override
 	public void displaySolution(Solution s)
 	{
@@ -83,16 +89,28 @@ public class MyView extends Observable implements View {
 		else
 			System.out.println("Solution is not exist yet");
 	}
+	/**
+	 * Sets the maze in the GUI control
+	 * @param m the selected maze
+	 */
 	@Override
 	public void setGuiMaze(Maze m) {
 		// TODO Auto-generated method stub
 		
 	}
+	/**
+	 * sets the solution data member
+	 * @param s the selected solution
+	 */
 	@Override
 	public void setSolution(Solution s) {
 		// TODO Auto-generated method stub
 		
 	}
+	/**
+	 * Sets the solution data member that starts in the selected position
+	 * @param sol String that states the first position of the solution
+	 */
 	@Override
 	public void setStartSolution(Solution sol) {
 		// TODO Auto-generated method stub

@@ -8,7 +8,13 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-
+/**
+ * This class is in charge of the boat display on the maze
+ * @author  Sarusi Ran, Gershfeld Itzik 
+ * @version 1.0
+ * @since   2015-06-02
+ *
+ */
 public class Boat
 {
 	int x,y;
@@ -20,6 +26,13 @@ public class Boat
 	{
 	
 	}
+	/**
+	 * returns the selected image to display on the board
+	 * @param the direction of the boat
+	 * @param i the i coordinate of the position of the boat
+	 * @param j the j coordinate of the position of the boat
+	 * @return returns the selected image
+	 */
 	
 	public Image chooseOption(int dir, int i, int j)
 	{
@@ -59,11 +72,17 @@ public class Boat
 		}
 		return image2;
  	}
-	
+	/**
+	 * 
+	 * @return returns the boat's position
+	 */
 	public Image getBoatImg() {
 		return boatImg;
 	}
-
+	/**
+	 * sets the boat image to the selected parameter
+	 * @param boatImg the image of the boat position
+	 */
 	public void setBoatImg(Image boatImg) {
 		this.boatImg = boatImg;
 	}

@@ -11,7 +11,14 @@ import org.eclipse.swt.graphics.PaletteData;
 import org.eclipse.swt.graphics.Rectangle;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
-
+/**
+ * 
+ * This class defines the window that opens in the start of the project
+ * @author  Sarusi Ran, Gershfeld Itzik 
+ * @version 1.0
+ * @since   2015-06-02
+ */
+ 
 public class Tile extends Canvas
 {
 	Image beforeImage;
@@ -23,6 +30,11 @@ public class Tile extends Canvas
 	boolean hint = false;
 	boolean inCircle = false;
 	boolean circle = false;
+	/**
+	 * Constructs and initializes the class Tile
+	 * @param 
+	 * @param 
+	 */
 	public Tile(Composite parent, int style) {
 		super(parent, style);
 		addPaintListener(new PaintListener() {
@@ -60,6 +72,10 @@ public class Tile extends Canvas
 		});
 		
 	}
+	/**
+	 * Sets the tile's image to the parameter 
+	 * @param image the selected image
+	 */
 	public void setImage(Image image)
 	{
 		/*if(this.tileImg!=null)
@@ -72,52 +88,92 @@ public class Tile extends Canvas
 		this.tileImg=image;
 		redraw();
 	}
+	/**
+	 * Sets the boat image
+	 * @param image the selected boat image
+	 */
 	public void setBoatImage(Image image)
 	{
 		firstTile = false;
 		this.boatImg = image;
 		
 	}
+	/**
+	 * Sets the image before the change
+	 * @param image the selected image
+	 */
 	public void setBeforeImage(Image image)
 	{
 		this.beforeImage=image;
 	}
+	/**
+	 * 
+	 * @return returns the image that is restored here
+	 */
 	public Image getImage()
 	{
 		return this.tileImg;
 	}
+	/**
+	 * Puts a circle in the selected place, puts circle for the solution display.
+	 */
 	public void putCircle()
 	{
 		circle = true;
 		redraw();
 	}
+	/**
+	 * sets a hint in the selected place
+	 */
 	public void setHint()
 	{	
 		hint=true;
 		redraw();
 	}
+	/**
+	 * removes the hint from the selected place
+	 */
 	public void removeHint()
 	{
 		hint = false;
 		redraw();
 	}
+	/**
+	 * removes the solution display in the selected place
+	 */
 	public void removeCircle()
 	{
 		inCircle=true;
 		circle=false;
 		redraw();
 	}
+	/**
+	 * 
+	 * @return returns if there is a hint in this tile
+	 */
 	public boolean isHint()
 	{
 		return hint;
 	}
+	/**
+	 * 
+	 * @return returns if part of the solution display is in this tile
+	 */
 	public boolean isCircle()
 	{
 		return circle;
 	}
+	/**
+	 * 
+	 * @return returns if this tile is the first tile
+	 */
 	public boolean isFirstTile() {
 		return firstTile;
 	}
+	/**
+	 * Sets if the tile is the first tile or not
+	 * @param firstTile boolean variable that stated if this tile is the first tile
+	 */
 	public void setFirstTile(boolean firstTile) {
 		this.firstTile = firstTile;
 	}

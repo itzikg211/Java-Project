@@ -42,7 +42,12 @@ import algorithms.demo.MazeSearch;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.BFS;
 import algorithms.search.Solution;
-
+/**
+ * This class defines the window that opens in the start of the project
+* @author  Sarusi Ran, Gershfeld Itzik 
+* @version 1.0
+* @since   2015-02-06
+ */
 public class StartWindow extends BasicWindow implements View
 {
 	private Properties properties;
@@ -54,6 +59,12 @@ public class StartWindow extends BasicWindow implements View
 	Solution sol;
 	Solution sol2;
 	Boat b;
+	/**
+	 * Constructs the start window 
+	 * @param title the title of the start window
+	 * @param width the width of the start window
+	 * @param height the height of the start window
+	 */
 	public StartWindow(String title, int width, int height) 
 	{
 		super(title, width, height);
@@ -63,26 +74,37 @@ public class StartWindow extends BasicWindow implements View
 	}
 
 	@Override
+	/**
+	 * starts the connection with the presenter
+	 */
 	public void start() 
 	{
 		setChanged();
 		notifyObservers("start");
 		
 	}
-
+	/**
+	 * @return returns the selected user command
+	 */
 	@Override
 	public Command getUserCommand() 
 	{
 		return command;
 	}
-
+	/**
+	 * Displays the selected solution
+	 * @param s the selected solution
+	 */
 	@Override
 	public void displayMaze(Maze m) 
 	{
 		//need to complete TODO
 		
 	}
-
+	/**
+	 * Sets the hashmap of commands in the view
+	 * @param commands2
+	 */
 	@Override
 	public void displaySolution(Solution s) 
 	{
@@ -94,14 +116,19 @@ public class StartWindow extends BasicWindow implements View
 	{
 		setChanged();
 	}
-
+	/**
+	 * prints a message sent from the model
+	 * @param str
+	 */
 	@Override
 	public void setCommands(HashMap<String, Command> commands2) 
 	{
 		this.commands = commands2;
 		
 	}
-
+	/**
+	 * shows a message box with the recieved string to the user
+	 */
 	@Override
 	public void printMessage(String str) 
 	{
@@ -111,7 +138,9 @@ public class StartWindow extends BasicWindow implements View
 		mb.open();
 		
 	}
-
+	/**
+	 * the function that sets the qrguments in the start window
+	 */
 	@Override
 	void initWidgets() 
 	{
@@ -181,7 +210,9 @@ public class StartWindow extends BasicWindow implements View
 		
 		
 		////All the listeners
-		
+		/**
+		 * handles the mouse wheel movement
+		 */
 		maze.addMouseWheelListener(new MouseWheelListener() {
 			
 			@Override
@@ -213,7 +244,9 @@ public class StartWindow extends BasicWindow implements View
 		
 		
 		
-		
+		/**
+		 * handles the selected number of colons
+		 */
 		cols.addSelectionListener(new SelectionListener() 
 		{
 			
@@ -236,7 +269,9 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
-		
+		/**
+		 * handles the selected number of rows
+		 */
 		rows.addSelectionListener(new SelectionListener() 
 		{
 			
@@ -259,7 +294,9 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
-		
+		/**
+		 * handles the generate maze button
+		 */
 		a.addSelectionListener(new SelectionListener() 
 		{
 			@Override
@@ -373,6 +410,9 @@ public class StartWindow extends BasicWindow implements View
 			@Override
 			public void widgetDefaultSelected(SelectionEvent arg0) {}
 		});
+		/**
+		 * handles the hint button that the user asks for
+		 */
 		hint.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -404,7 +444,9 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
-		
+		/**
+		 * handles the hint button that the user asks for
+		 */
 		solve.addSelectionListener(new SelectionListener() {
 			
 			@Override
@@ -437,6 +479,9 @@ public class StartWindow extends BasicWindow implements View
 		});
 		MessageBox m = new MessageBox(shell);
 		m.setText("You finished");
+		/**
+		 * handles the user's key events
+		 */
 		maze.addKeyListener(new KeyListener(){
 			Boat b = new Boat();
 			@Override
@@ -527,7 +572,9 @@ public class StartWindow extends BasicWindow implements View
 			}
 			
 		});
-			
+		/**
+		 *  handles the exit choice in the menu bar
+		 */
 		exitItem.addSelectionListener(new SelectionListener() 
 		{
 			
@@ -557,7 +604,9 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
-
+		/**
+		 *  handles the proprties settings in the menu bar
+		 */
 		setPropertiesItem.addSelectionListener(new SelectionListener() 
 		{
 			
@@ -603,6 +652,9 @@ public class StartWindow extends BasicWindow implements View
 				// TODO Auto-generated method stub
 			}
 		});
+		/**
+		 *  handles the web choice in the help bar
+		 */
 		web.addSelectionListener(new SelectionListener() 
 		{
 			
@@ -620,6 +672,9 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
+		/**
+		 *  handles the rules display in the help bar
+		 */
 		rules.addSelectionListener(new SelectionListener() 
 		{
 			
@@ -642,22 +697,35 @@ public class StartWindow extends BasicWindow implements View
 		});
 		
 	}
-
+	/**
+	 * 
+	 * @return returns the command data member
+	 */
 	public Command getCommand()
 	{
 		return command;
 	}
-	
+	/**
+	 * Sets the selected command
+	 * @param command the selected command
+	 */
 	public void setCommand(Command command) {
 		this.command = command;
 	}
-
+	/**
+	 * sets the solution data member
+	 * @param s the selected solution
+	 */
 	@Override
 	public void setGuiMaze(Maze m) 
 	{
 		this.myMaze = m;
 		
 	}
+	/**
+	 * sets the solution data member
+	 * @param s the selected solution
+	 */
 
 	@Override
 	public void setSolution(Solution s) 
@@ -666,7 +734,10 @@ public class StartWindow extends BasicWindow implements View
 		sol = s;
 		
 	}
-
+	/**
+	 * Sets the solution data member that starts in the selected position
+	 * @param sol String that states the first position of the solution
+	 */
 	@Override
 	public void setStartSolution(Solution sol) 
 	{

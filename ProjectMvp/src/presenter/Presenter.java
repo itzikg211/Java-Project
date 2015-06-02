@@ -241,7 +241,11 @@ public class Presenter implements Observer{
 	public void setM(Model m) {
 		this.m = m;
 	}
-	
+	/**
+	 * 
+	 * @param name the name of the maze
+	 * @return returns the selected maze that matches the maze's name
+	 */
 	public Solution setGuiSolution(String name)
 	{
 		if(mazes.containsKey(name))
@@ -253,6 +257,13 @@ public class Presenter implements Observer{
 		}
 		return null;
 	}
+	/**
+	 * creating a maze, returning it and puts it in the hibernate file
+	 * @param rows number of rows in the new maze
+	 * @param cols number of colons in the new maze
+	 * @param name the name of the new maze
+	 * @return returns a new generated maze using the parameters
+	 */
 	public Maze setGuiMaze(int rows,int cols,String name)
 	{
 		if(mazes.keySet().contains(name))
