@@ -4,7 +4,6 @@ import java.util.Arrays;
 
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
-import org.eclipse.swt.graphics.Color;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
 import org.eclipse.swt.graphics.PaletteData;
@@ -20,7 +19,6 @@ public class Tile extends Canvas
 	Boat boat;
 	Image boatImg;
 	boolean firstTile;
-	boolean circle = false;
 	public Tile(Composite parent, int style) {
 		super(parent, style);
 		addPaintListener(new PaintListener() {
@@ -41,12 +39,6 @@ public class Tile extends Canvas
 			        	setBoatImage(new Image(null, "resources/boat-right.jpg"));
 			        	ImageData data1 = new Image(null, "resources/boat-right.jpg").getImageData();
 			        	e.gc.drawImage(new Image(null, "resources/boat-right.jpg"),0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));
-			        }
-			        if(circle == true)
-			        {
-			        	//e.gc.setForeground(new Color(null,255,200,0));
-						e.gc.setBackground(new Color(null,255,255,0));
-						e.gc.fillOval(width/3, height/3, width/3, height/3);
 			        }
 			}
 		});
@@ -76,11 +68,6 @@ public class Tile extends Canvas
 	public Image getImage()
 	{
 		return this.tileImg;
-	}
-	public void putCircle()
-	{
-		circle = true;
-		redraw();
 	}
 	public boolean isFirstTile() {
 		return firstTile;

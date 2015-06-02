@@ -2,9 +2,6 @@ package view;
 
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
@@ -19,8 +16,6 @@ import org.eclipse.swt.widgets.Display;
 
 import algorithms.mazeGenerators.Cell;
 import algorithms.mazeGenerators.Maze;
-import algorithms.search.Solution;
-import algorithms.search.State;
 
 public class Board extends Composite
 {
@@ -92,7 +87,6 @@ public class Board extends Composite
 				tiles[i][j].setBeforeImage(temp);
 			}
     	tiles[0][0].setFirstTile(true);
-    	tiles[0][0].putCircle();
 		//Image image = new Image(getDisplay(), "resources/boat-right.jpg");
 		
 		//Image scaled = new Image(null, image.getImageData());
@@ -100,20 +94,7 @@ public class Board extends Composite
 		//tiles[0][0].setImage(scaled);	
 		layout();
 	}
-	public void displaySolution(Solution s)
-	{
-		
-		ArrayList<Integer> arr = s.SolutionToArray();
-		int x=0;
-		int y=0;
-		for(int i=0;i<arr.size();i+=2)
-		{
-			x=arr.get(i);
-			y=arr.get(i+1);
-			tiles[x][y].putCircle();
-			redraw();
-		}
-	}
+
 	public void setBoatPosition(int i, int j) 
 	{
 		tiles[boatI][boatJ].setBoatImage(null);

@@ -382,9 +382,6 @@ public class MyModel extends Observable implements Model
 	{
 		this.sol = s;
 	}
-	
 
-	
-	
 	
 }

@@ -3,12 +3,17 @@ package view;
 import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashMap;
+
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
 
 import model.MyModel;
 
@@ -51,8 +56,8 @@ public class StartWindow extends BasicWindow implements View
 	{
 		super(title, width, height);
 		properties = new Properties();
-		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-		PrintWriter writer = new PrintWriter(System.out);
+		//BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		//PrintWriter writer = new PrintWriter(System.out);
 	}
 
 	@Override
@@ -371,10 +376,9 @@ public class StartWindow extends BasicWindow implements View
 				else
 				{
 					System.out.println("The solution is NOT null");
-					maze.displaySolution(sol);
+					//maze.displaySolution(sol);
 					maze.forceFocus();
 				}
-				
 			}
 			
 			@Override
@@ -383,7 +387,6 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
-		
 		MessageBox m = new MessageBox(shell);
 		m.setText("You finished");
 		maze.addKeyListener(new KeyListener(){
@@ -455,6 +458,20 @@ public class StartWindow extends BasicWindow implements View
 			public void keyReleased(KeyEvent e) {
 				if(maze.getX()==maze.mazeR-1 & maze.getY()==maze.mazeC-1)
 				{
+					File file = new File("resources/music/winnerMusic.wav");
+					AudioInputStream stream;
+					Clip clip;
+					try 
+					{
+					    stream = AudioSystem.getAudioInputStream(file);
+					    clip = AudioSystem.getClip();
+					    clip.open(stream);
+					    clip.start();
+					}
+					catch (Exception ex) 
+					{
+					    ex.printStackTrace();
+					}
 					System.out.println("FINISHED!");
 					m.setMessage("Congrats! you finished the maze!");
 					m.open();
