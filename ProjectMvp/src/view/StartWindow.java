@@ -315,6 +315,8 @@ public class StartWindow extends BasicWindow implements View
 								// TODO Auto-generated catch block
 								ee.printStackTrace();
 							}
+							
+							
 						if(names.length==0)
 						{
 							for(String s: names)
