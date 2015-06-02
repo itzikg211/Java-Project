@@ -315,19 +315,22 @@ public class StartWindow extends BasicWindow implements View
 								// TODO Auto-generated catch block
 								ee.printStackTrace();
 							}
-						for(String s: names)
+						if(names.length==0)
 						{
-							if(s.equals(t.getText()))
+							for(String s: names)
 							{
-								flag = false;
-							}	
-						}
-						if(flag == false)
-						{
-							MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR);
-							mb.setText("Error");
-							mb.setMessage("Error! the name is already exists in the database");
-							mb.open();
+								if(s.equals(t.getText()))
+								{
+									flag = false;
+								}	
+							}
+							if(flag == false)
+							{
+								MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR);
+								mb.setText("Error");
+								mb.setMessage("Error! the name is already exists in the database");
+								mb.open();
+							}
 						}
 						if(flag == true)
 						{
@@ -409,7 +412,7 @@ public class StartWindow extends BasicWindow implements View
 				else
 				{
 					System.out.println("The solution is NOT null");
-					//maze.displaySolution(sol);
+					maze.displaySolution(sol);
 					maze.forceFocus();
 				}
 				
