@@ -349,6 +349,9 @@ public class StartWindow extends BasicWindow implements View
 								maze.forceFocus();
 							}	
 						}
+						
+						
+						
 						/*else
 						{
 							MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR);
