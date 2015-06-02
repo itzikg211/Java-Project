@@ -20,6 +20,7 @@ public class Tile extends Canvas
 	Boat boat;
 	Image boatImg;
 	boolean firstTile;
+	boolean inCircle = false;
 	boolean circle = false;
 	public Tile(Composite parent, int style) {
 		super(parent, style);
@@ -44,10 +45,12 @@ public class Tile extends Canvas
 			        }
 			        if(circle == true)
 			        {
-			        	//e.gc.setForeground(new Color(null,255,200,0));
-						e.gc.setBackground(new Color(null,255,255,0));
+			        	e.gc.setForeground(new Color(null,255,200,0));
+						//e.gc.setBackground(new Color(null,255,255,0));
 						e.gc.fillOval(width/3, height/3, width/3, height/3);
 			        }
+			        
+			        
 			}
 		});
 		
@@ -68,6 +71,7 @@ public class Tile extends Canvas
 	{
 		firstTile = false;
 		this.boatImg = image;
+		
 	}
 	public void setBeforeImage(Image image)
 	{
@@ -81,6 +85,16 @@ public class Tile extends Canvas
 	{
 		circle = true;
 		redraw();
+	}
+	public void removeCircle()
+	{
+		inCircle=true;
+		circle=false;
+		redraw();
+	}
+	public boolean isCircle()
+	{
+		return circle;
 	}
 	public boolean isFirstTile() {
 		return firstTile;

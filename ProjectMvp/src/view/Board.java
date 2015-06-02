@@ -58,7 +58,6 @@ public class Board extends Composite
 
 		
 	}
-	
 	public void displayMaze(Maze m)
 	{
 		
@@ -98,6 +97,11 @@ public class Board extends Composite
 	{
 		tiles[boatI][boatJ].setBoatImage(null);
 		tiles[boatI][boatJ].redraw();
+		if(tiles[i][j].isCircle())
+		{
+			System.out.println(i + "," + j + " has circle");
+			tiles[i][j].removeCircle();
+		}
 		tiles[i][j].setBoatImage(b.chooseOption(dir,i,j));
 		tiles[i][j].redraw();
 		boatI = i;

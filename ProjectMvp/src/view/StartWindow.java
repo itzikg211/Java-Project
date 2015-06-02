@@ -350,17 +350,6 @@ public class StartWindow extends BasicWindow implements View
 							}	
 						}
 						
-						
-						
-						/*else
-						{
-							MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR);
-							mb.setText("Error naming the maze");
-							mb.setMessage("theres already a maze named " + t.getText());
-							mb.open();
-						}*/
-						/*maze.displayMaze(new DFSMazeGenerator().generateMaze(numR, numC));
-						maze.forceFocus();*/
 					}
 					
 					
