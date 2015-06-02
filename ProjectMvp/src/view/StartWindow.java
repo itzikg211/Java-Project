@@ -28,6 +28,7 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Menu;
 import org.eclipse.swt.widgets.MenuItem;
 import org.eclipse.swt.widgets.MessageBox;
+import org.eclipse.swt.widgets.Text;
 
 import presenter.Presenter;
 import presenter.Properties;
@@ -138,7 +139,7 @@ public class StartWindow extends BasicWindow implements View
 		numOfRows.setText("Choose the number of rows");
 		numOfRows.setLayoutData(new GridData(SWT.FILL,SWT.FILL, false,false,1,1));
 		Board maze=new Board(shell, SWT.BORDER);
-		maze.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,7));
+		maze.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true,true,1,9));
 		
 		Combo rows = new Combo(shell, SWT.DROP_DOWN | SWT.BORDER | SWT.READ_ONLY);
 		rows.setLayoutData(new GridData(SWT.FILL,SWT.FILL, false,false,1,1));
@@ -155,6 +156,12 @@ public class StartWindow extends BasicWindow implements View
 		{
 			cols.add(i + " columns");
 		}
+		Label name = new Label(shell, SWT.NONE);
+		name.setText("Insert the name of the maze:");
+		name.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
+		Text t = new Text(shell, SWT.BORDER);
+		t.setLayoutData(new GridData(SWT.FILL,SWT.TOP, false,false,1,1));
+		t.setText("");
 		Button a=new Button(shell, SWT.PUSH);
 		a.setText("Generate the maze");
 		a.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false,false,1,1));
@@ -267,7 +274,7 @@ public class StartWindow extends BasicWindow implements View
 				xmle.close();
 				if(numR != 0 && numC != 0)
 				{
-					String str = "gogo";
+					/*String str = "gogo";
 					String send = "generate maze ";
 					send = send + str;
 					send = send + " " + numR + " " + numC ;
@@ -276,7 +283,43 @@ public class StartWindow extends BasicWindow implements View
 					notifyObservers(send);
 					maze.displayMaze(myMaze);
 					//maze.printBoat();
-					maze.forceFocus();
+					maze.forceFocus();*/
+					
+					String str = t.getText();
+					if(str.equals(""))
+					{
+						MessageBox m2 = new MessageBox(shell);
+						m2.setText("BAD INPUT");
+						m2.setMessage("You didnt input maze's name");
+						m2.open();
+					}
+					else
+					{
+						maze.setX(0);
+						maze.setY(0);
+						myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
+						String send = "generate maze ";
+						send = send + str;
+						send = send + " " + numR + " " + numC ;
+						setChanged();
+						notifyObservers(send);
+						if(myMaze!=null)
+						{
+							maze.displayMaze(myMaze);
+							//maze.printBoat();
+							maze.forceFocus();
+						}			
+						else
+						{
+							MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR);
+							mb.setText("Error naming the maze");
+							mb.setMessage("theres already a maze named " + t.getText());
+							mb.open();
+						}
+						/*maze.displayMaze(new DFSMazeGenerator().generateMaze(numR, numC));
+						maze.forceFocus();*/
+					}
+					
 					
 					/*maze.displayMaze(new DFSMazeGenerator().generateMaze(numR, numC));
 					maze.forceFocus();*/

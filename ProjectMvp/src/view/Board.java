@@ -29,10 +29,11 @@ public class Board extends Composite
 	Image beforeImage;
 	PaintEvent pe;
 	int dir;
+	Boat b;
 	public Board(Composite parent, int style) 
 	{
 		super(parent, style);
-		//image = new Image(getDisplay(), new ImageData("resources/boat-right.jpg"));
+		b = new Boat();
 		this.boatI=0;
 		this.boatJ=0;
 		addPaintListener(new PaintListener() 
@@ -98,54 +99,15 @@ public class Board extends Composite
 	{
 		tiles[boatI][boatJ].setBoatImage(null);
 		tiles[boatI][boatJ].redraw();
-		tiles[i][j].setBoatImage(chooseOption(dir,i,j));
+		tiles[i][j].setBoatImage(b.chooseOption(dir,i,j));
 		tiles[i][j].redraw();
 		boatI = i;
 		boatJ = j;
 	}
 		
-	public Image chooseOption(int dir, int i, int j)
- 	{
-		tiles[0][0].redraw();
-		int x,y;
-		x=0;
-		y=0;
-		Image image2=null;
-		
-		if(dir==0)
-		{
-			x=i+1;
-			y=j;
-			image2 = new Image(null, "resources/boat-up.jpg");
-			//setBoatImg(image2);
-			
-		}
-		if(dir==1)
-		{
-			x=i;
-			y=j-1;
-			image2 = new Image(null, "resources/boat-right.jpg");
-			//setBoatImg(image2);
-		}
-		if(dir==2)
-		{
-			x=i-1;
-			y=j;
-			image2 = new Image(null, "resources/boat-down.jpg");
-			//setBoatImg(image2);
-			
-		}
-		if(dir==3)
-		{
-			x=i;
-			y=j+1;
-			image2 = new Image(null, "resources/boat-left.jpg");
-			//setBoatImg(image2);
-		}
-		return image2;
- 	}
 	public boolean canMove(int i,int j,int dir)
 	{
+		tiles[0][0].redraw();
 		boatI = i;
 		boatJ = j;
 		System.out.println();
@@ -333,5 +295,9 @@ public class Board extends Composite
 
 	public void setDir(int dir) {
 		this.dir = dir;
+	}
+	public Boat getBoat()
+	{
+		return b;
 	}
 }

@@ -32,13 +32,13 @@ public class Tile extends Canvas
 			        if(boatImg!=null)
 			        {
 			        	ImageData data1 = boatImg.getImageData();
-						e.gc.drawImage(boatImg,0,0,data1.width,data1.height,5,5,(int)(e.height * 0.7), (int)(e.width * 0.7));
+						e.gc.drawImage(boatImg,0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));//(int)(Math.min(e.width,e.height) * 0.7), (int)(Math.min(e.width,e.height) * 0.7));
 			        }
 			        if(firstTile)
 			        {
 			        	setBoatImage(new Image(null, "resources/boat-right.jpg"));
 			        	ImageData data1 = new Image(null, "resources/boat-right.jpg").getImageData();
-			        	e.gc.drawImage(new Image(null, "resources/boat-right.jpg"),0,0,data1.width,data1.height,5,5,(int)(e.height * 0.7), (int)(e.width * 0.7));
+			        	e.gc.drawImage(new Image(null, "resources/boat-right.jpg"),0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));
 			        }
 			}
 		});
