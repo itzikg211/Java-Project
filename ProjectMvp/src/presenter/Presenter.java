@@ -253,6 +253,58 @@ public class Presenter implements Observer{
 		m.generateMaze(rows,cols);
 		Maze maze = m.getMaze();
 		mazes.put(name, maze);
+		
+		m.setName(name);
+		System.out.println("Solution for " + command + " is ready!");			
+		BufferedReader reader = null;
+		try {
+			reader = new BufferedReader(new FileReader("names.txt"));
+		} catch (FileNotFoundException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String temp = "";
+		String line = "";
+		try 
+		{
+			while ((temp = reader.readLine()) != null)
+			{
+				line+=temp;
+			}
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			reader.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		OutputStream out = null;
+		try {
+			out = new FileOutputStream(new File("names.txt"));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		String str = line + "#" + name;
+		try {
+			out.write(str.getBytes());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			out.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		return maze;
 	}
 

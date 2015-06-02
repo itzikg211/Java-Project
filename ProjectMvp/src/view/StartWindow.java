@@ -7,6 +7,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.HashMap;
@@ -279,16 +281,6 @@ public class StartWindow extends BasicWindow implements View
 				xmle.close();
 				if(numR != 0 && numC != 0)
 				{
-					/*String str = "gogo";
-					String send = "generate maze ";
-					send = send + str;
-					send = send + " " + numR + " " + numC ;
-					
-					setChanged();
-					notifyObservers(send);
-					maze.displayMaze(myMaze);
-					//maze.printBoat();
-					maze.forceFocus();*/
 					
 					String str = t.getText();
 					if(str.equals(""))
@@ -300,27 +292,67 @@ public class StartWindow extends BasicWindow implements View
 					}
 					else
 					{
-						maze.setX(0);
-						maze.setY(0);
-						myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
-						String send = "generate maze ";
-						send = send + str;
-						send = send + " " + numR + " " + numC ;
-						setChanged();
-						notifyObservers(send);
-						if(myMaze!=null)
+						/////check if the maze name is already inside the database
+						boolean flag = true;
+						String [] names = null;
+							BufferedReader reader = null;
+							try {
+								reader = new BufferedReader(new FileReader("names.txt"));
+							} catch (FileNotFoundException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							String line;
+							try 
+							{
+								while ((line = reader.readLine()) != null)
+								{
+									names = line.split("#");
+								}
+							} 
+							catch (IOException ee) 
+							{
+								// TODO Auto-generated catch block
+								ee.printStackTrace();
+							}
+						for(String s: names)
 						{
-							maze.displayMaze(myMaze);
-							//maze.printBoat();
-							maze.forceFocus();
-						}			
-						else
+							if(s.equals(t.getText()))
+							{
+								flag = false;
+							}	
+						}
+						if(flag == false)
+						{
+							MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR);
+							mb.setText("Error");
+							mb.setMessage("Error! the name is already exists in the database");
+							mb.open();
+						}
+						if(flag == true)
+						{
+							maze.setX(0);
+							maze.setY(0);
+							//myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
+							String send = "generate maze ";
+							send = send + str;
+							send = send + " " + numR + " " + numC ;
+							setChanged();
+							notifyObservers(send);
+							if(myMaze!=null)
+							{
+								maze.displayMaze(myMaze);
+								//maze.printBoat();
+								maze.forceFocus();
+							}	
+						}
+						/*else
 						{
 							MessageBox mb = new MessageBox(shell,SWT.ICON_ERROR);
 							mb.setText("Error naming the maze");
 							mb.setMessage("theres already a maze named " + t.getText());
 							mb.open();
-						}
+						}*/
 						/*maze.displayMaze(new DFSMazeGenerator().generateMaze(numR, numC));
 						maze.forceFocus();*/
 					}
@@ -364,6 +396,7 @@ public class StartWindow extends BasicWindow implements View
 			@Override
 			public void widgetSelected(SelectionEvent arg0) 
 			{
+				/////
 				System.out.println("solving the maze " + t.getText());
 				String send = "gui solve maze ";
 				send += t.getText();
@@ -379,6 +412,7 @@ public class StartWindow extends BasicWindow implements View
 					//maze.displaySolution(sol);
 					maze.forceFocus();
 				}
+				
 			}
 			
 			@Override
