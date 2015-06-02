@@ -16,6 +16,7 @@ import view.Command;
 import view.StartWindow;
 import view.View;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.Solution;
 /**
  * This is the presenter we use in our project in the MVP pattern
  * @author user1
@@ -161,17 +162,9 @@ public class Presenter implements Observer{
 				{
 					System.out.println("Doing gui solve maze command");
 					String[] sw = str.split(" ");
-					Command c = new solveMaze();
-					command = sw[3];
-					try {
-						c.doCommand("");
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					String name = sw[3];
+					Solution s = setGuiSolution(name);
+					v.setSolution(s);
 				}
 				else
 				{
@@ -238,7 +231,17 @@ public class Presenter implements Observer{
 		this.m = m;
 	}
 	
-	
+	public Solution setGuiSolution(String name)
+	{
+		if(mazes.containsKey(name))
+		{
+			m.setName(name);
+			m.solveMaze(mazes.get(name));
+			System.out.println("Solution for " + name + " is ready!");	
+			return m.getSolution();
+		}
+		return null;
+	}
 	public Maze setGuiMaze(int rows,int cols,String name)
 	{
 		if(mazes.keySet().contains(name))
