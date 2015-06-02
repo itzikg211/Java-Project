@@ -362,13 +362,18 @@ public class StartWindow extends BasicWindow implements View
 				System.out.println("solving the maze " + t.getText());
 				String send = "gui solve maze ";
 				send += t.getText();
+				setChanged();
 				notifyObservers(send);
 				if(sol==null)
 				{
 					System.out.println("The solution is null");
 				}
 				else
+				{
 					System.out.println("The solution is NOT null");
+					maze.displaySolution(sol);
+					maze.forceFocus();
+				}
 				
 			}
 			
@@ -378,6 +383,7 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
+		
 		MessageBox m = new MessageBox(shell);
 		m.setText("You finished");
 		maze.addKeyListener(new KeyListener(){
