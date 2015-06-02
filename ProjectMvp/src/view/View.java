@@ -18,4 +18,5 @@ public interface View {
 	public void printMessage(String str);
 	void setGuiMaze(Maze m);
 	void setSolution(Solution s);
+	void setStartSolution(Solution sol);
 }

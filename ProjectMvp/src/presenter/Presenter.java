@@ -15,7 +15,9 @@ import model.Model;
 import view.Command;
 import view.StartWindow;
 import view.View;
+import algorithms.demo.MazeSearch;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.BFS;
 import algorithms.search.Solution;
 /**
  * This is the presenter we use in our project in the MVP pattern
@@ -158,6 +160,15 @@ public class Presenter implements Observer{
 					Maze m = setGuiMaze(Integer.parseInt(w[3]), Integer.parseInt(w[4]), w[2]);
 					v.setGuiMaze(m);
 				}
+				else if(str.startsWith("hint"))
+				{
+					String[] hw = str.split(" ");
+					int x = Integer.parseInt(hw[1]);
+					int y = Integer.parseInt(hw[2]);
+					String s = x +"," + y;
+					Solution sol2=m.getSolution(s);
+					v.setStartSolution(sol2);
+				}	
 				else if (str.startsWith("gui solve maze"))
 				{
 					System.out.println("Doing gui solve maze command");

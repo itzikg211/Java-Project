@@ -9,8 +9,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.util.HashMap;
 
 import javax.sound.sampled.AudioInputStream;
@@ -40,8 +38,9 @@ import org.eclipse.swt.widgets.Text;
 import presenter.Presenter;
 import presenter.Properties;
 import presenter.Properties.WayOfDisplay;
-import algorithms.mazeGenerators.DFSMazeGenerator;
+import algorithms.demo.MazeSearch;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.BFS;
 import algorithms.search.Solution;
 
 public class StartWindow extends BasicWindow implements View
@@ -53,6 +52,7 @@ public class StartWindow extends BasicWindow implements View
 	Command command;
 	Maze myMaze;
 	Solution sol;
+	Solution sol2;
 	Boat b;
 	public StartWindow(String title, int width, int height) 
 	{
@@ -374,8 +374,25 @@ public class StartWindow extends BasicWindow implements View
 		hint.addSelectionListener(new SelectionListener() {
 			
 			@Override
-			public void widgetSelected(SelectionEvent arg0) {
-				// TODO Auto-generated method stub
+			public void widgetSelected(SelectionEvent arg0)
+			{
+				String str = "hint " + maze.getX() + " " + maze.getY();
+				System.out.println("hint str : " + str);
+				setChanged();
+				notifyObservers(str);
+				//put the relevant string representing the current state here
+				if(sol2!=null)
+				{
+					sol2.displaySolution();
+					int size = sol2.getList().size();
+					int j = sol2.SolutionToArray().get(size*2-3);
+					int i = sol2.SolutionToArray().get(size*2-4);
+					maze.setHint(i, j);					
+					maze.forceFocus();
+				}
+				else
+					System.out.println("The hint solution is null");
+
 				
 			}
 			
@@ -582,7 +599,6 @@ public class StartWindow extends BasicWindow implements View
 			public void widgetDefaultSelected(SelectionEvent arg0) 
 			{
 				// TODO Auto-generated method stub
-				
 			}
 		});
 		web.addSelectionListener(new SelectionListener() 
@@ -625,10 +641,11 @@ public class StartWindow extends BasicWindow implements View
 		
 	}
 
-	public Command getCommand() {
+	public Command getCommand()
+	{
 		return command;
 	}
-
+	
 	public void setCommand(Command command) {
 		this.command = command;
 	}
@@ -646,6 +663,12 @@ public class StartWindow extends BasicWindow implements View
 		System.out.println("Sets the maze");
 		sol = s;
 		
+	}
+
+	@Override
+	public void setStartSolution(Solution sol) 
+	{
+		sol2=sol;		
 	}
 
 	

@@ -14,7 +14,7 @@ import algorithms.search.Solution;
 
 public interface Model 
 {
-	
+	public Solution getSolution(String s);
 	 /**
 	   * This method generates a (rows * cols) size maze .
 	   * @param rows <b>(int) </b>This is the first parameter to the generateMaze method

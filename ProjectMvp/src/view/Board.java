@@ -29,9 +29,12 @@ public class Board extends Composite
 	PaintEvent pe;
 	int dir;
 	Boat b;
+	Solution s;
+	
 	public Board(Composite parent, int style) 
 	{
 		super(parent, style);
+		
 		b = new Boat();
 		this.boatI=0;
 		this.boatJ=0;
@@ -85,14 +88,13 @@ public class Board extends Composite
 				tiles[i][j].setBeforeImage(temp);
 			}
     	tiles[0][0].setFirstTile(true);
-		//Image image = new Image(getDisplay(), "resources/boat-right.jpg");
-		
-		//Image scaled = new Image(null, image.getImageData());
-		//this.beforeImage = tiles[0][0].getImage();
-		//tiles[0][0].setImage(scaled);	
 		layout();
 	}
-
+	public void setHint(int x,int y)
+	{
+		setAllHintsToFalse(x, y);
+		tiles[x][y].setHint();
+	}
 	public void setBoatPosition(int i, int j) 
 	{
 		tiles[boatI][boatJ].setBoatImage(null);
@@ -102,12 +104,17 @@ public class Board extends Composite
 			System.out.println(i + "," + j + " has circle");
 			tiles[i][j].removeCircle();
 		}
+		if(tiles[i][j].isHint())
+		{
+			System.out.println(i + "," + j + " has hint");
+			tiles[i][j].removeHint();
+		}
 		tiles[i][j].setBoatImage(b.chooseOption(dir,i,j));
 		tiles[i][j].redraw();
 		boatI = i;
 		boatJ = j;
 	}
-		
+	
 	public boolean canMove(int i,int j,int dir)
 	{
 		tiles[0][0].redraw();
@@ -275,6 +282,18 @@ public class Board extends Composite
 			tiles[x][y].putCircle();
 			redraw();
 		}
+	}
+	public void setAllHintsToFalse(int x,int y)
+	{
+		for(int i=0;i<tiles.length;i++)
+			for(int j=0;j<tiles[0].length;j++)
+			{
+				if(i!=x && j!= y)
+				{
+					tiles[i][j].removeHint();
+					tiles[i][j].redraw();
+				}
+			}
 	}
 	public void drawPicture(Image i,int dir)
 	{

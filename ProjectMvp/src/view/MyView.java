@@ -93,6 +93,11 @@ public class MyView extends Observable implements View {
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public void setStartSolution(Solution sol) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

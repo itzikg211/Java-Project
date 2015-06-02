@@ -20,6 +20,7 @@ public class Tile extends Canvas
 	Boat boat;
 	Image boatImg;
 	boolean firstTile;
+	boolean hint = false;
 	boolean inCircle = false;
 	boolean circle = false;
 	public Tile(Composite parent, int style) {
@@ -32,6 +33,12 @@ public class Tile extends Canvas
 					int height=getSize().y;
 			        ImageData data = tileImg.getImageData();
 			        e.gc.drawImage(tileImg,0,0,data.width,data.height,temp1,temp2,width,height);
+			        if(hint)
+			        {
+			        	e.gc.setForeground(new Color(null,0,255,0));
+			        	e.gc.setBackground(new Color(null,0,255,0));
+			        	e.gc.fillRectangle(width/3, height/3, width/3, height/3);
+			        }
 			        if(boatImg!=null)
 			        {
 			        	ImageData data1 = boatImg.getImageData();
@@ -45,12 +52,10 @@ public class Tile extends Canvas
 			        }
 			        if(circle == true)
 			        {
-			        	e.gc.setForeground(new Color(null,255,200,0));
-						//e.gc.setBackground(new Color(null,255,255,0));
+			        	//e.gc.setForeground(new Color(null,255,200,0));
+						e.gc.setBackground(new Color(null,200,100,0));
 						e.gc.fillOval(width/3, height/3, width/3, height/3);
 			        }
-			        
-			        
 			}
 		});
 		
@@ -86,11 +91,25 @@ public class Tile extends Canvas
 		circle = true;
 		redraw();
 	}
+	public void setHint()
+	{	
+		hint=true;
+		redraw();
+	}
+	public void removeHint()
+	{
+		hint = false;
+		redraw();
+	}
 	public void removeCircle()
 	{
 		inCircle=true;
 		circle=false;
 		redraw();
+	}
+	public boolean isHint()
+	{
+		return hint;
 	}
 	public boolean isCircle()
 	{

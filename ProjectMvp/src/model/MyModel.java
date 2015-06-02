@@ -383,5 +383,26 @@ public class MyModel extends Observable implements Model
 		this.sol = s;
 	}
 
+	@Override
+	public Solution getSolution(String s) 
+	{
+		System.out.println("GETTING THE HINT SOLUTION");
+		if(maze==null)
+		{
+			System.out.println("The hint maze is null");
+			return null;
+		}
+		else
+		{
+			System.out.println("The hint maze is NOT null");
+			MazeSearch ms1 = new MazeSearch(maze,false);
+			ms1.setStartState(s);
+			BFS sol1 = new BFS();
+			Solution sol2 = sol1.search(ms1);
+			return sol2;
+		}		
+		
+	}
+
 	
 }
