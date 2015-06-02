@@ -359,7 +359,16 @@ public class StartWindow extends BasicWindow implements View
 			@Override
 			public void widgetSelected(SelectionEvent arg0) 
 			{
-				
+				System.out.println("solving the maze " + t.getText());
+				String send = "gui solve maze ";
+				send += t.getText();
+				notifyObservers(send);
+				if(sol==null)
+				{
+					System.out.println("The solution is null");
+				}
+				else
+					System.out.println("The solution is NOT null");
 				
 			}
 			
@@ -576,6 +585,14 @@ public class StartWindow extends BasicWindow implements View
 	public void setGuiMaze(Maze m) 
 	{
 		this.myMaze = m;
+		
+	}
+
+	@Override
+	public void setSolution(Solution s) 
+	{
+		System.out.println("Sets the maze");
+		sol = s;
 		
 	}
 

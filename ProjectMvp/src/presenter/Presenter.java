@@ -144,16 +144,34 @@ public class Presenter implements Observer{
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		
 		if(o==v)
 		{
 			if(arg!=null)
 			{
 				String str = (String)arg;
+				System.out.println("bla bla : " + str);
 				if(str.startsWith("generate maze"))
 				{
 					String [] w = str.split(" ");
 					Maze m = setGuiMaze(Integer.parseInt(w[3]), Integer.parseInt(w[4]), w[2]);
 					v.setGuiMaze(m);
+				}
+				else if (str.startsWith("gui solve maze"))
+				{
+					System.out.println("Doing gui solve maze command");
+					String[] sw = str.split(" ");
+					Command c = new solveMaze();
+					command = sw[3];
+					try {
+						c.doCommand("");
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				else
 				{
@@ -177,7 +195,9 @@ public class Presenter implements Observer{
 					Command c = v.getUserCommand();
 					this.command = (String)arg;
 					try {
+						
 						c.doCommand(null);
+						
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
