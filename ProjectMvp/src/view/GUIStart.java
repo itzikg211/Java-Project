@@ -20,14 +20,42 @@ import org.eclipse.swt.widgets.MessageBox;
 import presenter.Presenter;
 import presenter.Properties;
 
+/**
+ * <h1>class GUIStart</h1>
+* The GUIStart class extends BasicWindow.
+* This is the first window that pops up in our GUI, it is a nice, presenting the project display.
+*<p> 
+* @author  Gershfeld Itzik, Sarusi Ran
+* @version 1.0
+* @since   2015-06-02 
+*/
+
+
+
 public class GUIStart extends BasicWindow
-{ 
+{
+	
+	 /**
+	   * This is the C'tor of GUIStart. 
+	   * <p>The thing it does is initializing the title and the sizes of the GUIstart window.
+	   * @param title <b>(String) </b>This is the first parameter to the GUIStart method
+	   * @param width <b>(int) </b>This is the second parameter to the GUIStart method
+	   * @param height <b>(int) </b>This is the third parameter to the GUIStart method
+	   * @return Nothing.
+	   */
 	
 	public GUIStart(String title, int width, int height)
 	{
 		super(title, width, height);
 	}
 
+	 /**
+	   * This is the function that sets up all the widgets. 
+	   * <p>The thing it does is initializing widgets and setting up their event handlers.
+	   * @param Nothing.
+	   * @return Nothing.
+	   */
+	
 	@Override
 	void initWidgets() 
 	{

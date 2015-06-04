@@ -38,9 +38,7 @@ import org.eclipse.swt.widgets.Text;
 import presenter.Presenter;
 import presenter.Properties;
 import presenter.Properties.WayOfDisplay;
-import algorithms.demo.MazeSearch;
 import algorithms.mazeGenerators.Maze;
-import algorithms.search.BFS;
 import algorithms.search.Solution;
 /**
  * This class defines the window that opens in the start of the project
@@ -354,7 +352,7 @@ public class StartWindow extends BasicWindow implements View
 							}
 							
 							
-						if(names.length==0)
+						if(names!=null)
 						{
 							for(String s: names)
 							{

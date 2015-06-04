@@ -65,6 +65,8 @@ public class Presenter implements Observer{
 			mazes.put(ints[0], maze);
 		}		
 	}
+	
+	
 	/**
 	 * The display maze command. using the model and the view to to display selcted maze
 	 * @author user1
