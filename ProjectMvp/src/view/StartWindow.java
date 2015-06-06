@@ -21,6 +21,8 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.KeyEvent;
 import org.eclipse.swt.events.KeyListener;
 import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
@@ -59,6 +61,7 @@ public class StartWindow extends BasicWindow implements View
 	Solution sol;
 	Solution sol2;
 	Boat b;
+	boolean solvedAlready = false;
 	/**
 	 * Constructs the start window 
 	 * @param title the title of the start window
@@ -373,6 +376,7 @@ public class StartWindow extends BasicWindow implements View
 						}
 						if(flag == true)
 						{
+							solvedAlready = false;
 							maze.setX(0);
 							maze.setY(0);
 							//myMaze = new DFSMazeGenerator().generateMaze(numR, numC);
@@ -456,19 +460,29 @@ public class StartWindow extends BasicWindow implements View
 				System.out.println("solving the maze " + t.getText());
 				String send = "gui solve maze ";
 				send += t.getText();
-				setChanged();
-				notifyObservers(send);
-				if(sol==null)
+				
+				if(solvedAlready == false)
 				{
-					System.out.println("The solution is null");
+					setChanged();
+					notifyObservers(send);
+					if(sol==null)
+					{
+						System.out.println("The solution is null");
+					}
+					else
+					{
+						System.out.println("The solution is NOT null");
+						
+						maze.displaySolution(sol);
+						maze.forceFocus();
+					}
+					solvedAlready = true;
 				}
 				else
 				{
-					System.out.println("The solution is NOT null");
 					maze.displaySolution(sol);
 					maze.forceFocus();
 				}
-				
 			}
 			
 			@Override
@@ -477,6 +491,45 @@ public class StartWindow extends BasicWindow implements View
 				
 			}
 		});
+	
+		
+		
+	maze.addMouseListener(new MouseListener() {
+		
+		public void mouseUp(MouseEvent arg0) //when you leave the mouse 
+		{
+			// TODO Auto-generated method stub
+			int a = maze.getDisplay().getCursorLocation().x;
+			int b = maze.getDisplay().getCursorLocation().y;
+			String pos = "leave position : " + a + "," + b;
+			/*if(a==clickI && b==clickJ)
+			{
+				System.out.println("mouse didnt move!");
+			}*/
+			System.out.println(pos);
+		}
+		
+		@Override
+		public void mouseDown(MouseEvent arg0) { //when you press the mouse
+			// TODO Auto-generated method stub
+			
+			int a = maze.getDisplay().getCursorLocation().x;
+			int b = maze.getDisplay().getCursorLocation().y;
+			//clickI=a;
+			//clickJ=b;
+			String pos = "click position : " + a + "," + b;
+			System.out.println(pos);
+			
+		}
+		
+		@Override
+		public void mouseDoubleClick(MouseEvent arg0) {
+			// TODO Auto-generated method stub
+			
+		}
+	});
+		
+		
 		MessageBox m = new MessageBox(shell);
 		m.setText("You finished");
 		/**
@@ -556,10 +609,12 @@ public class StartWindow extends BasicWindow implements View
 					Clip clip;
 					try 
 					{
+						
 					    stream = AudioSystem.getAudioInputStream(file);
 					    clip = AudioSystem.getClip();
 					    clip.open(stream);
 					    clip.start();
+					  
 					}
 					catch (Exception ex) 
 					{
