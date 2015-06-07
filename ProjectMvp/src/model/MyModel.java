@@ -1,33 +1,20 @@
 package model;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.PrintWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Observable;
-import java.util.Set;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
 
 import presenter.Properties;
 import algorithms.demo.MazeSearch;
-import algorithms.mazeGenerators.DFSMazeGenerator;
 import algorithms.mazeGenerators.Maze;
-import algorithms.mazeGenerators.MazeGenerator;
-import algorithms.mazeGenerators.RandomMazeGenerator;
-import algorithms.search.AStar;
 import algorithms.search.BFS;
-import algorithms.search.MazeAirDistance;
-import algorithms.search.MazeManhattanDistance;
 import algorithms.search.Solution;
 
 
@@ -41,13 +28,16 @@ import algorithms.search.Solution;
 
 public class MyModel extends Observable implements Model
 {
-	ExecutorService executor;
-	Maze maze;
-	Solution sol;
-	String MazeName;
-	HashMap<String,HashMap<Maze, Solution>> msols;
-	Properties pro;
-	
+	private ExecutorService executor;
+	private Maze maze;
+	private Solution sol;
+	private String mazeName;
+	//private HashMap<String,HashMap<Maze, Solution>> msols;
+	private Properties pro;
+	private Socket myServer;
+	private ObjectInputStream inFromServer;
+	private PrintWriter outToServer;
+	private BufferedReader inFromUser;
 	
 	 /**
 	   * This is the C'tor of MyModel. 
@@ -62,7 +52,68 @@ public class MyModel extends Observable implements Model
 		//Initialize the threadpool.
 		this.pro = pro;
 		executor=Executors.newFixedThreadPool(pro.getThreadNumber());
-		msols = new HashMap<String, HashMap<Maze,Solution>>();
+		//msols = new HashMap<String, HashMap<Maze,Solution>>();
+		System.out.println("CLIENT SIDE");
+		myServer = null;
+		try 
+		{
+			myServer = new Socket(pro.getIpAddr(),pro.getPortNumber());
+		} catch (UnknownHostException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) 
+		
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		/*inFromServer = null;
+		try 
+		{
+			inFromServer = new BufferedReader(new InputStreamReader(myServer.getInputStream()));
+		} catch (IOException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		outToServer = null;
+		try 
+		{
+			outToServer = new PrintWriter(new OutputStreamWriter(myServer.getOutputStream()));
+		} catch (IOException e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		inFromUser = new BufferedReader(new InputStreamReader(System.in));
+		String line = null;
+		try 
+		{
+			while(!(line = inFromUser.readLine()).equals("exit"))
+			{
+				//System.out.println(line);
+				outToServer.println(line);
+				outToServer.flush();
+				
+				String serverMSG = inFromServer.readLine();
+				System.out.println(serverMSG);
+			}
+		} catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		outToServer.println(line);
+		outToServer.flush();
+		try 
+		{
+			System.out.println(inFromServer.readLine());
+		} catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		//getting all the data from the database.
        /* Configuration configuration = new Configuration();
         configuration.configure("hibernate.cfg.xml");
@@ -109,6 +160,127 @@ public class MyModel extends Observable implements Model
 		
 		session.close();*/
 	}
+
+	@Override
+	public Solution getSolution(String s) 
+	{
+		System.out.println("GETTING THE HINT SOLUTION");
+		if(maze==null)
+		{
+			System.out.println("The hint maze is null");
+			return null;
+		}
+		else
+		{
+			System.out.println("The hint maze is NOT null");
+			outToServer.println("hint maze"+ " " + mazeName + s);
+			outToServer.flush();
+			Solution sol2 = null;
+			try 
+			{
+				sol2 = (Solution) inFromServer.readObject();
+				
+			} 
+			catch (IOException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} 
+			catch (ClassNotFoundException e) 
+			{
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return sol2;
+			
+			
+			/*MazeSearch ms1 = new MazeSearch(maze,false);
+			ms1.setStartState(s);
+			BFS sol1 = new BFS();
+			Solution sol2 = sol1.search(ms1);
+			return sol2;*/
+		}		
+		
+	}
+	
+	@Override
+	public Solution getSolution() 
+	{
+		
+		if(sol==null)
+		{
+			System.out.println("No solution yet");
+			return null;
+		}
+		return sol;
+	}
+
+	@Override
+	public void generateMaze(int rows, int cols) 
+	{
+		outToServer.println("generate maze"+ " " + mazeName + rows + " "+ cols);
+		outToServer.flush();
+		try 
+		{
+			maze = (Maze) inFromServer.readObject();
+		} catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("generated a maze");
+		
+	}
+
+	
+	
+	@Override
+	public Maze getMaze() 
+	{
+		if(maze==null)
+		{
+			System.out.println("No maze yet");
+			return null;
+		}
+		return maze;
+	}
+
+	@Override
+	public void solveMaze(Maze m) 
+	{
+		outToServer.println("solve maze"+ " " + mazeName);
+		outToServer.flush();
+		try 
+		{
+			sol = (Solution) inFromServer.readObject();
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("solved the maze "+ mazeName);
+	}
+
+	@Override
+	public void setName(String name) 
+	{
+		this.mazeName = name;
+	}
+
+	@Override
+	public void setSol(Solution s) 
+	{
+		this.sol = s;
+	}
 	
 	 /**
 	   * This method generates a (rows * cols) size maze .
@@ -117,7 +289,7 @@ public class MyModel extends Observable implements Model
 	   * @return Nothing.
 	   */
 	
-	@Override
+/*	@Override
 	public void generateMaze(int rows, int cols) 
 	{
 		
@@ -184,7 +356,7 @@ public class MyModel extends Observable implements Model
 	   * @return maze <b>(Maze) </b>.
 	   */
 	
-	@Override
+	/*@Override
 	public Maze getMaze() 
 	{
 		//HashMap<Maze, Solution> temp = msols.get(name);
@@ -204,13 +376,13 @@ public class MyModel extends Observable implements Model
 	   * @return Nothing.
 	   */
 	
-	@Override
+	/*@Override
 	public void solveMaze(Maze m) 
 	{
-		if(msols.containsKey(MazeName))
+		if(msols.containsKey(mazeName))
 		{
 			HashMap <Maze, Solution> temp = new HashMap<Maze, Solution>(); 
-			temp = msols.get(MazeName);
+			temp = msols.get(mazeName);
 			sol = temp.get(m);
 			setChanged();
 			notifyObservers(4);
@@ -300,17 +472,17 @@ public class MyModel extends Observable implements Model
 			Session session = sessionFactory.openSession();
 			session.beginTransaction();
 			MazeSolutionHibernate msh = new MazeSolutionHibernate();*/
-			Set<String> names = msols.keySet();
-			if(!names.contains(MazeName))
+			/*Set<String> names = msols.keySet();
+			if(!names.contains(mazeName))
 			{
 				/*msh.setMaze(maze.toString());
 				msh.setSol(sol.toString());
-				msh.setId(MazeName);
+				msh.setId(mazeName);
 				session.save(msh);
 				session.getTransaction().commit();*/
-				HashMap <Maze, Solution> temp1 = new HashMap<Maze, Solution>(); 
+				/*HashMap <Maze, Solution> temp1 = new HashMap<Maze, Solution>(); 
 				temp1.put(maze, sol);
-				this.msols.put(MazeName,temp1);
+				this.msols.put(mazeName,temp1);
 			}
 			else
 			{
@@ -328,7 +500,7 @@ public class MyModel extends Observable implements Model
 	   * @return sol <b>(Solution) </b>.
 	   */
 	
-	@Override
+	/*@Override
 	public Solution getSolution() 
 	{
 		
@@ -339,7 +511,7 @@ public class MyModel extends Observable implements Model
 		}
 		return sol;
 	}
-
+*/
 	
 	 /**
 	   * This method stops the whole process, shuts down the threadpool.
@@ -350,8 +522,20 @@ public class MyModel extends Observable implements Model
 	@Override
 	public void stop() 
 	{
-		
+		outToServer.println("exit");
+		outToServer.flush();
 		System.out.println("stop");
+		try {
+			inFromServer.close();
+			inFromUser.close();
+			outToServer.close();
+			myServer.close();
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		if(executor.isShutdown())
 			return;
 		executor.shutdown();
@@ -364,10 +548,10 @@ public class MyModel extends Observable implements Model
 	   * @return Nothing.
 	   */
 	
-	@Override
+	/*@Override
 	public void setName(String string) 
 	{
-		this.MazeName = string;
+		this.mazeName = string;
 		
 	}
 
@@ -377,7 +561,7 @@ public class MyModel extends Observable implements Model
 	   * @return Nothing.
 	   */
 	
-	@Override
+	/*@Override
 	public void setSol(Solution s) 
 	{
 		this.sol = s;
@@ -402,7 +586,7 @@ public class MyModel extends Observable implements Model
 			return sol2;
 		}		
 		
-	}
+	}*/
 
 	
 }

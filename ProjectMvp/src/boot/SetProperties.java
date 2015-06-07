@@ -6,7 +6,8 @@ import java.io.IOException;
 
 import presenter.Properties;
 
-public class SetProperties {
+public class SetProperties 
+{
 
 	public static void main(String[] args) 
 	{

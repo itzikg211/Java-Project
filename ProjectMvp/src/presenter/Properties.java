@@ -36,6 +36,8 @@ public class Properties implements Serializable {
 	private double regCost;
 	private double diagonalCost;
 	private WayOfDisplay view;
+	private String IpAddr;
+	private int portNumber;
 	/**
 	 * Constructs the class Properties and intializes the basic Settings
 	 */
@@ -48,6 +50,8 @@ public class Properties implements Serializable {
 		this.regCost=10;
 		this.diagonalCost=15;
 		this.view = WayOfDisplay.GUI;
+		this.IpAddr = "127.0.0.1";
+		this.portNumber = 5040;
 	}
 	/**
 	 * Constructs the class Properties and intializes the class with the injected fiels
@@ -66,80 +70,92 @@ public class Properties implements Serializable {
 	 * 
 	 * @return returns the number of threads the user decided on
 	 */
-	public int getThreadNumber() {
+	public int getThreadNumber() 
+	{
 		return threadNumber;
 	}
 	/**
 	 * Sets the number of threads to the user's choice
 	 * @param threadNumber the number of thereads the user decided
 	 */
-	public void setThreadNumber(int threadNumber) {
+	public void setThreadNumber(int threadNumber) 
+	{
 		this.threadNumber = threadNumber;
 	}
 	/**
 	 * 
 	 * @return returns the maze solver the user decided on
 	 */
-	public MazeSolver getMazeSolver() {
+	public MazeSolver getMazeSolver() 
+	{
 		return mazeSolver;
 	}
 	/**
 	 * sets the maze solver to the selected maze solver
 	 * @param mazeSolver the selected maze solver
 	 */
-	public void setMazeSolver(MazeSolver mazeSolver) {
+	public void setMazeSolver(MazeSolver mazeSolver) 
+	{
 		this.mazeSolver = mazeSolver;
 	}
 	/**
 	 * @return returns the maze generator the user decided on
 	 */
-	public MazeGenerator getMazeGenerator() {
+	public MazeGenerator getMazeGenerator() 
+	{
 		return mazeGenerator;
 	}
 	/**
 	 * sets the maze generator to the implemented maze generator
 	 * @param mazeGenerator The selected maze generator
 	 */
-	public void setMazeGenerator(MazeGenerator mazeGenerator) {
+	public void setMazeGenerator(MazeGenerator mazeGenerator) 
+	{
 		this.mazeGenerator = mazeGenerator;
 	}
 	/**
 	 * @return returns if the maze solver solvs the maze with diagonals or not
 	 */
-	public Boolean getDiagonal() {
+	public Boolean getDiagonal() 
+	{
 		return diagonal;
 	}
 	/**
 	 * sets if the maze solver solvs the maze with diagonals or not
 	 * @param diagonal the selcted choice
 	 */
-	public void setDiagonal(Boolean diagonal) {
+	public void setDiagonal(Boolean diagonal) 
+	{
 		this.diagonal = diagonal;
 	}
 	/**
 	 * @return returns the cost of the maze solution
 	 */
-	public double getMovementCost() {
+	public double getMovementCost() 
+	{
 		return regCost;
 	}
 	/**
 	 * sets the cost of the maze solution
 	 * @param movementCost the selected cost
 	 */
-	public void setMovementCost(double movementCost) {
+	public void setMovementCost(double movementCost) 
+	{
 		this.regCost = movementCost;
 	}
 	/**
 	 * @return returns the cost of the maze solution with diagonal
 	 */
-	public double getDiagonalMovementCost() {
+	public double getDiagonalMovementCost() 
+	{
 		return diagonalCost;
 	}
 	/**
 	 * sets the cost of the maze solution with diagonal
 	 * @param diagonalCost the selected maze solution
 	 */
-	public void setDiagonalMovementCost(double diagonalCost) {
+	public void setDiagonalMovementCost(double diagonalCost) 
+	{
 		this.diagonalCost = diagonalCost;
 	}
 	
@@ -147,15 +163,33 @@ public class Properties implements Serializable {
 	 * @return returns the way of display
 	 */
 	
-	public WayOfDisplay getView() {
+	public WayOfDisplay getView()
+	{
 		return view;
 	}
 	/**
 	 * sets the view of the program
 	 * @param view the selected way of display
 	 */
-	public void setView(WayOfDisplay view) {
+	public void setView(WayOfDisplay view)
+	{
 		this.view = view;
+	}
+	public String getIpAddr() 
+	{
+		return IpAddr;
+	}
+	public void setIpAddr(String ipAddr) 
+	{
+		IpAddr = ipAddr;
+	}
+	public int getPortNumber()
+	{
+		return portNumber;
+	}
+	public void setPortNumber(int portNumber) 
+	{
+		this.portNumber = portNumber;
 	}
 	
 	

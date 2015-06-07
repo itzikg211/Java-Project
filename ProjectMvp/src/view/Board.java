@@ -120,6 +120,7 @@ public class Board extends Composite
 				tiles[i][j].setBeforeImage(temp);
 			}
     	tiles[0][0].setFirstTile(true);
+    	tiles[mazeR-1][mazeC-1].setFinalImg(true);
 		layout();
 	}
 	

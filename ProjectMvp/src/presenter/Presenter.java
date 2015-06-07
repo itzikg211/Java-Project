@@ -155,7 +155,7 @@ public class Presenter implements Observer{
 			if(arg!=null)
 			{
 				String str = (String)arg;
-				System.out.println("bla bla : " + str);
+				//System.out.println("bla bla : " + str);
 				if(str.startsWith("generate maze"))
 				{
 					String [] w = str.split(" ");
