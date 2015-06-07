@@ -2,6 +2,10 @@ package view;
 
 import java.util.Arrays;
 
+import org.eclipse.swt.events.DragDetectEvent;
+import org.eclipse.swt.events.DragDetectListener;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Color;
@@ -23,12 +27,13 @@ public class Tile extends Canvas
 {
 	Image beforeImage;
 	Image tileImg;
+	int clickI,clickJ;
 	int a,b,temp1,temp2;
+	Image arrowImage;
 	Boat boat;
 	Image boatImg;
 	boolean firstTile;
 	boolean hint = false;
-	boolean inCircle = false;
 	boolean circle = false;
 	/**
 	 * Constructs and initializes the class Tile
@@ -47,9 +52,12 @@ public class Tile extends Canvas
 			        e.gc.drawImage(tileImg,0,0,data.width,data.height,temp1,temp2,width,height);
 			        if(hint)
 			        {
-			        	e.gc.setForeground(new Color(null,0,255,0));
-			        	e.gc.setBackground(new Color(null,0,255,0));
-			        	e.gc.fillRectangle(width/3, height/3, width/3, height/3);
+			        	/*e.gc.setForeground(new Color(null,255,0,0));
+			        	e.gc.setBackground(new Color(null,255,0,0));
+			        	e.gc.fillRectangle(width/3, height/3, width/3, height/3);*/
+			        	Image galgal = new Image(null, "resources/galgal.jpg");
+			        	ImageData data1 = galgal.getImageData();
+			        	e.gc.drawImage(galgal,0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));//(int)(Math.min(e.width,e.height) * 0.7), (int)(Math.min(e.width,e.height) * 0.7));
 			        }
 			        if(boatImg!=null)
 			        {
@@ -65,13 +73,56 @@ public class Tile extends Canvas
 			        if(circle == true)
 			        {
 			        	//e.gc.setForeground(new Color(null,255,200,0));
-						e.gc.setBackground(new Color(null,200,100,0));
-						e.gc.fillOval(width/3, height/3, width/3, height/3);
+						/*e.gc.setBackground(new Color(null,200,100,0));
+						e.gc.fillOval(width/3, height/3, width/3, height/3);*/
+			        	//e.gc.drawLine(0, 0, width, height);
+			        	ImageData data1 = arrowImage.getImageData();
+			        	e.gc.drawImage(arrowImage,0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));//(int)(Math.min(e.width,e.height) * 0.7), (int)(Math.min(e.width,e.height) * 0.7));
 			        }
+			}
+		});
+			
+		addMouseListener(new MouseListener() {
+			
+			@Override
+			public void mouseUp(MouseEvent arg0) //when you leave the mouse 
+			{
+				// TODO Auto-generated method stub
+				int a = getDisplay().getCursorLocation().x;
+				int b = getDisplay().getCursorLocation().y;
+				String pos = "leave position : " + a + "," + b;
+				System.out.println(pos);
+				if(a==clickI && b==clickJ)
+				{
+					System.out.println("mouse didnt move!");
+				}
+			}
+			
+			@Override
+			public void mouseDown(MouseEvent arg0) { //when you press the mouse
+				// TODO Auto-generated method stub
+				
+				int a = getDisplay().getCursorLocation().x;
+				int b = getDisplay().getCursorLocation().y;
+				clickI=a;
+				clickJ=b;
+				String pos = "click position : " + a + "," + b;
+				System.out.println(pos);
+				
+			}
+			
+			@Override
+			public void mouseDoubleClick(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				
 			}
 		});
 		
 	}
+	
+	
+	
+	
 	/**
 	 * Sets the tile's image to the parameter 
 	 * @param image the selected image
@@ -117,9 +168,15 @@ public class Tile extends Canvas
 	/**
 	 * Puts a circle in the selected place, puts circle for the solution display.
 	 */
-	public void putCircle()
+	/*public void putCircle()
 	{
 		circle = true;
+		redraw();
+	}*/
+	public void putArrow(Image i)
+	{
+		circle = true;
+		this.arrowImage = i;
 		redraw();
 	}
 	/**
@@ -143,7 +200,7 @@ public class Tile extends Canvas
 	 */
 	public void removeCircle()
 	{
-		inCircle=true;
+		
 		circle=false;
 		redraw();
 	}

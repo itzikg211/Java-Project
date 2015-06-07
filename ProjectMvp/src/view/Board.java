@@ -1,14 +1,18 @@
 package view;
 
 
-
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.events.MouseListener;
+import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.PaintEvent;
 import org.eclipse.swt.events.PaintListener;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.ImageData;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.internal.gdip.PointF;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
@@ -35,8 +39,8 @@ public class Board extends Composite
 	Tile[][] tiles;
 	Maze m;
 	Image image;
-	int boatI;
-	int boatJ;
+	int boatI,boatJ;
+	int hintI = -1,hintJ = -1;
 	Image beforeImage;
 	PaintEvent pe;
 	int dir;
@@ -129,7 +133,21 @@ public class Board extends Composite
 	
 	public void setHint(int x,int y)
 	{
-		setAllHintsToFalse(x, y);
+		if((hintI == -1) & (hintJ == -1))
+		{
+			hintI = x;
+			hintJ =y;	
+		}
+		else
+		{
+			tiles[hintI][hintJ].removeHint();
+			hintI = x;
+			hintJ =y;	
+		}
+		if(tiles[x][y].isCircle())
+		{
+			tiles[x][y].removeCircle();
+		}
 		tiles[x][y].setHint();
 	}
 	
@@ -145,8 +163,13 @@ public class Board extends Composite
 	{
 		tiles[boatI][boatJ].setBoatImage(null);
 		tiles[boatI][boatJ].redraw();
+		
 		if(tiles[i][j].isCircle())
 		{
+			if((i==1 && j==0) || (i==0 && j==1))
+			{
+				tiles[0][0].removeCircle();
+			}
 			System.out.println(i + "," + j + " has circle");
 			tiles[i][j].removeCircle();
 		}
@@ -354,11 +377,42 @@ public class Board extends Composite
 		ArrayList<Integer> arr = s.SolutionToArray();
 		int x=0;
 		int y=0;
-		for(int i=0;i<arr.size();i+=2)
+		int a=0;
+		int b=0;
+		System.out.println("SOLUTION : ");
+		for(int i=3;i<arr.size();i+=2)
 		{
-			x=arr.get(i);
-			y=arr.get(i+1);
-			tiles[x][y].putCircle();
+			Image arrow;
+			y=arr.get(arr.size()-i);
+			x=arr.get(arr.size()-i-1);
+			System.out.println("A : " + a + " B : "+b);
+			System.out.println("X : " + x + " Y : "+y);
+			if(x == a+1) //direction is right
+			{
+				arrow = new Image(null, "resources/arrow-down.png"); 
+				tiles[a][b].putArrow(arrow);
+				a=x;
+			}
+			else if(x == a-1) //direction is left
+			{
+				arrow = new Image(null, "resources/arrow-up.png"); 
+				tiles[a][b].putArrow(arrow);
+				a=x;
+				
+			}
+			else if(y == b+1) //direction is down
+			{
+				
+				arrow = new Image(null, "resources/arrow-right.png"); 
+				tiles[a][b].putArrow(arrow);
+				b=y;
+			}
+			else if(y == b-1) //direction is up
+			{
+				arrow = new Image(null, "resources/arrow-left.png"); 
+				tiles[a][b].putArrow(arrow);
+				b=y;
+			}
 			redraw();
 		}
 	}
@@ -385,6 +439,7 @@ public class Board extends Composite
 	}
 
 	/////All the getters and setters.
+
 	public void setX(int a)
 	{
 		this.boatI=a;
