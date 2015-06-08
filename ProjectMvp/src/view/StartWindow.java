@@ -40,7 +40,9 @@ import org.eclipse.swt.widgets.Text;
 import presenter.Presenter;
 import presenter.Properties;
 import presenter.Properties.WayOfDisplay;
+import algorithms.demo.MazeSearch;
 import algorithms.mazeGenerators.Maze;
+import algorithms.search.BFS;
 import algorithms.search.Solution;
 /**
  * This class defines the window that opens in the start of the project
@@ -355,7 +357,7 @@ public class StartWindow extends BasicWindow implements View
 							}
 							
 							
-						if(names!=null)
+						if(names.length==0)
 						{
 							for(String s: names)
 							{
@@ -458,7 +460,10 @@ public class StartWindow extends BasicWindow implements View
 				System.out.println("solving the maze " + t.getText());
 				String send = "gui solve maze ";
 				send += t.getText();
-				
+				String add = " " + maze.getX() + " " + maze.getY();
+				send += add;
+				System.out.println("POSITION OF THE BOAT : " + maze.getX() +","+maze.getY());
+				System.out.println("SEND : " + send);
 				if(solvedAlready == false)
 				{
 					setChanged();
@@ -642,8 +647,6 @@ public class StartWindow extends BasicWindow implements View
 				switch(rc)
 				{
 				case SWT.YES:
-					setChanged();
-					notifyObservers("finish");
 					display.dispose();				
 				break;
 				case SWT.NO:

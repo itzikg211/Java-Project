@@ -20,20 +20,8 @@ import org.eclipse.swt.widgets.Composite;
 import algorithms.mazeGenerators.Maze;
 import algorithms.search.Solution;
 
-/**
- * <h1>class Board</h1>
-* The Board class extends Composite
-* This is the widget we created in order to display the maze.
-*<p> 
-* This class extends Composite and later we are inserting inside it a lot of canvases(Tiles) that represent out maze.
-* @author  Gershfeld Itzik, Sarusi Ran
-* @version 1.0
-* @since   2015-06-02 
-*/
-
 public class Board extends Composite
 {
-	//those are the Board variables
 	int mazeR;
 	int mazeC;
 	Tile[][] tiles;
@@ -46,14 +34,6 @@ public class Board extends Composite
 	int dir;
 	Boat b;
 	Solution s;
-	
-	 /**
-	   * This is the C'tor of Board. 
-	   * <p>The thing it does is initializing the Composite parent and the style.
-	   * @param parent <b>(Composite) </b>This is the first parameter to the Board method
-	   * @param style <b>(int) </b>This is the second parameter to the Board method
-	   * @return Nothing.
-	   */
 	
 	public Board(Composite parent, int style) 
 	{
@@ -76,7 +56,7 @@ public class Board extends Composite
 				}
 				if(tiles==null){
 					int width=(int)(parent.getSize().x*0.80);
-					int height=(int)(parent.getSize().y*0.9);
+					int height=(int)(parent.getSize().y*0.85);
 					ImageData data = new ImageData("resources/mainPic.png");
 					arg0.gc.drawImage(new Image(getDisplay(),"resources/mainPic.png"),0,0,data.width,data.height,0,0,width, height);
 				}
@@ -86,12 +66,7 @@ public class Board extends Composite
 		
 	}
 	
-	 /**
-	   * This is the method that creates the right maze by the maze it gets. 
-	   * <p>The thing it does is initializing tiles of the maze that later showing the whole maze.
-	   * @param m <b>(Maze) </b>This is the parameter to the displayMaze method
-	   * @return Nothing.
-	   */
+	
 	
 	public void displayMaze(Maze m)
 	{
@@ -120,18 +95,8 @@ public class Board extends Composite
 				tiles[i][j].setBeforeImage(temp);
 			}
     	tiles[0][0].setFirstTile(true);
-    	tiles[mazeR-1][mazeC-1].setFinalImg(true);
 		layout();
 	}
-	
-	 /**
-	   * This is the setHint method. 
-	   * <p>The thing it does is setting up the hint for the specific coordinate.
-	   * @param x <b>(int) </b>This is the first parameter to the setHint method
-	   * @param y <b>(int) </b>This is the second parameter to the setHint method
-	   * @return Nothing.
-	   */
-	
 	public void setHint(int x,int y)
 	{
 		if((hintI == -1) & (hintJ == -1))
@@ -151,15 +116,6 @@ public class Board extends Composite
 		}
 		tiles[x][y].setHint();
 	}
-	
-	 /**
-	   * This is the setBoatPosition method. 
-	   * <p>The thing it does is setting up the boat character to the specific coordinate.
-	   * @param i <b>(int) </b>This is the first parameter to the setBoatPosition method
-	   * @param j <b>(int) </b>This is the second parameter to the setBoatPosition method
-	   * @return Nothing.
-	   */
-	
 	public void setBoatPosition(int i, int j) 
 	{
 		tiles[boatI][boatJ].setBoatImage(null);
@@ -184,15 +140,6 @@ public class Board extends Composite
 		boatI = i;
 		boatJ = j;
 	}
-	
-	 /**
-	   * This is the canMove method. 
-	   * <p>The thing it does is checking if the character can move from it's current position to (i,j) by the direction.
-	   * @param i <b>(int) </b>This is the first parameter to the canMove method
-	   * @param j <b>(int) </b>This is the second parameter to the canMove method
-	   * @param dir <b>(int) </b>This is the third parameter to the canMove method
-	   * @return Nothing.
-	   */
 	
 	public boolean canMove(int i,int j,int dir)
 	{
@@ -261,13 +208,6 @@ public class Board extends Composite
 
 	}
 	
-	 /**
-	   * This is the delMaze method. 
-	   * <p>The thing it does is deleting the current maze from the maze displayer widget.
-	   * @param Nothing.
-	   * @return Nothing.
-	   */
-	
 	private void delMaze()
 	{
 		for(int i=0;i<tiles.length;i++)
@@ -276,15 +216,6 @@ public class Board extends Composite
 				tiles[i][j].dispose();
 			}
 	}
-	
-	 /**
-	   * This is the setImg method. 
-	   * <p>The thing it does is setting up the right image from resources by the maze
-	   * @param maze <b>(Maze) </b>This is the first parameter to the setImg method
-	   * @param i <b>(int) </b>This is the second parameter to the setImg method
-	   * @param j <b>(int) </b>This is the third parameter to the setImg method
-	   * @return image <b>(Image) </b>
-	   */
 	
 	private Image setImg(Maze maze,int i,int j)
 	{
@@ -364,23 +295,15 @@ public class Board extends Composite
         }
 		
 	}
-	
-	 /**
-	   * This is the displaySolution method. 
-	   * <p>The thing it does is getting up a solution and displaying it in the maze.
-	   * @param s <b>(Solution) </b>This is the parameter to the displaySolution method
-	   * @return Nothing.
-	   */
-	
 	public void displaySolution(Solution s)
 	{
-		
 		ArrayList<Integer> arr = s.SolutionToArray();
 		int x=0;
 		int y=0;
-		int a=0;
-		int b=0;
+		int a=getX();
+		int b=getY();
 		System.out.println("SOLUTION : ");
+		s.displaySolution();
 		for(int i=3;i<arr.size();i+=2)
 		{
 			Image arrow;
@@ -417,30 +340,11 @@ public class Board extends Composite
 			redraw();
 		}
 	}
-	
-	 /**
-	   * This is the setAllHintsToFalse method. 
-	   * <p>The thing it does is setting up all the hints to be false by redrawing them.
-	   * @param x <b>(int) </b>This is the first parameter to the displaySolution method
-	   * @param y <b>(int) </b>This is the second parameter to the displaySolution method
-	   * @return Nothing.
-	   */
-	
-	public void setAllHintsToFalse(int x,int y)
+
+	public void drawPicture(Image i,int dir)
 	{
-		for(int i=0;i<tiles.length;i++)
-			for(int j=0;j<tiles[0].length;j++)
-			{
-				if(i!=x && j!= y)
-				{
-					tiles[i][j].removeHint();
-					tiles[i][j].redraw();
-				}
-			}
+		
 	}
-
-	/////All the getters and setters.
-
 	public void setX(int a)
 	{
 		this.boatI=a;

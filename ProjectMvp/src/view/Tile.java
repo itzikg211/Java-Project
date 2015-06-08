@@ -25,21 +25,16 @@ import org.eclipse.swt.widgets.Composite;
  
 public class Tile extends Canvas
 {
-	private Image beforeImage;
-	private Image tileImg;
-	private int clickI,clickJ;
-	private int a,b,temp1,temp2;
-	private Image arrowImage;
-	private Boat boat;
-	private Image boatImg;
-	private boolean firstTile;
-	private boolean hint = false;
-	private boolean circle = false;
-	private boolean finalImg = false;
-
-
-
-
+	Image beforeImage;
+	Image tileImg;
+	int clickI,clickJ;
+	int a,b,temp1,temp2;
+	Image arrowImage;
+	Boat boat;
+	Image boatImg;
+	boolean firstTile;
+	boolean hint = false;
+	boolean circle = false;
 	/**
 	 * Constructs and initializes the class Tile
 	 * @param 
@@ -83,11 +78,6 @@ public class Tile extends Canvas
 			        	//e.gc.drawLine(0, 0, width, height);
 			        	ImageData data1 = arrowImage.getImageData();
 			        	e.gc.drawImage(arrowImage,0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));//(int)(Math.min(e.width,e.height) * 0.7), (int)(Math.min(e.width,e.height) * 0.7));
-			        }
-			        if(finalImg == true)
-			        {
-			        	ImageData data1 = new Image(null, "resources/final.png").getImageData();
-			        	e.gc.drawImage(new Image(null, "resources/final.png"),0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));
 			        }
 			}
 		});
@@ -234,25 +224,14 @@ public class Tile extends Canvas
 	 * 
 	 * @return returns if this tile is the first tile
 	 */
-	public boolean isFirstTile() 
-	{
+	public boolean isFirstTile() {
 		return firstTile;
 	}
 	/**
 	 * Sets if the tile is the first tile or not
 	 * @param firstTile boolean variable that stated if this tile is the first tile
 	 */
-	public void setFirstTile(boolean firstTile) 
-	{
+	public void setFirstTile(boolean firstTile) {
 		this.firstTile = firstTile;
-	}
-	public boolean isFinalImg() 
-	{
-		return finalImg;
-	}
-
-	public void setFinalImg(boolean finalImg) 
-	{
-		this.finalImg = finalImg;
 	}
 }
