@@ -123,10 +123,6 @@ public class Board extends Composite
 		
 		if(tiles[i][j].isCircle())
 		{
-			if((i==1 && j==0) || (i==0 && j==1))
-			{
-				tiles[0][0].removeCircle();
-			}
 			System.out.println(i + "," + j + " has circle");
 			tiles[i][j].removeCircle();
 		}
@@ -143,7 +139,7 @@ public class Board extends Composite
 	
 	public boolean canMove(int i,int j,int dir)
 	{
-		tiles[0][0].redraw();
+		//tiles[0][0].redraw();
 		boatI = i;
 		boatJ = j;
 		System.out.println();

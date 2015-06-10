@@ -27,7 +27,7 @@ public class Tile extends Canvas
 {
 	Image beforeImage;
 	Image tileImg;
-	int clickI,clickJ;
+	int clickI,clickJ,unclickI,unclickJ,slope;
 	int a,b,temp1,temp2;
 	Image arrowImage;
 	Boat boat;
@@ -52,9 +52,6 @@ public class Tile extends Canvas
 			        e.gc.drawImage(tileImg,0,0,data.width,data.height,temp1,temp2,width,height);
 			        if(hint)
 			        {
-			        	/*e.gc.setForeground(new Color(null,255,0,0));
-			        	e.gc.setBackground(new Color(null,255,0,0));
-			        	e.gc.fillRectangle(width/3, height/3, width/3, height/3);*/
 			        	Image galgal = new Image(null, "resources/galgal.jpg");
 			        	ImageData data1 = galgal.getImageData();
 			        	e.gc.drawImage(galgal,0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));//(int)(Math.min(e.width,e.height) * 0.7), (int)(Math.min(e.width,e.height) * 0.7));
@@ -63,6 +60,7 @@ public class Tile extends Canvas
 			        {
 			        	ImageData data1 = boatImg.getImageData();
 						e.gc.drawImage(boatImg,0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));//(int)(Math.min(e.width,e.height) * 0.7), (int)(Math.min(e.width,e.height) * 0.7));
+						circle = false;
 			        }
 			        if(firstTile)
 			        {
@@ -72,10 +70,6 @@ public class Tile extends Canvas
 			        }
 			        if(circle == true)
 			        {
-			        	//e.gc.setForeground(new Color(null,255,200,0));
-						/*e.gc.setBackground(new Color(null,200,100,0));
-						e.gc.fillOval(width/3, height/3, width/3, height/3);*/
-			        	//e.gc.drawLine(0, 0, width, height);
 			        	ImageData data1 = arrowImage.getImageData();
 			        	e.gc.drawImage(arrowImage,0,0,data1.width,data1.height,(int)(width/8),(int)(height/8),(int)(width*0.7),(int)(height*0.7));//(int)(Math.min(e.width,e.height) * 0.7), (int)(Math.min(e.width,e.height) * 0.7));
 			        }
@@ -90,14 +84,17 @@ public class Tile extends Canvas
 				// TODO Auto-generated method stub
 				int a = getDisplay().getCursorLocation().x;
 				int b = getDisplay().getCursorLocation().y;
+				unclickI = a;
+				unclickJ = b;
 				String pos = "leave position : " + a + "," + b;
 				System.out.println(pos);
 				if(a==clickI && b==clickJ)
 				{
 					System.out.println("mouse didnt move!");
 				}
+				double sl =  (double)(clickJ-unclickJ)/(double)(clickI-unclickI);
+				System.out.println("THE SLOPE IS : " + sl);
 			}
-			
 			@Override
 			public void mouseDown(MouseEvent arg0) { //when you press the mouse
 				// TODO Auto-generated method stub

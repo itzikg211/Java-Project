@@ -26,6 +26,7 @@ import org.eclipse.swt.events.MouseTrackListener;
 import org.eclipse.swt.events.MouseWheelListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.internal.win32.MSG;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -483,7 +484,9 @@ public class StartWindow extends BasicWindow implements View
 				}
 				else
 				{
-					maze.displaySolution(sol);
+					MessageBox mb = new MessageBox(shell);
+					mb.setMessage("You already solved the maze");
+					mb.open();
 					maze.forceFocus();
 				}
 			}
